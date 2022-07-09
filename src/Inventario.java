@@ -15,9 +15,11 @@ public class Inventario {
 
     public static void listarEquipos ( String inventario[][] ){
 
-        String tablaFormato = "| %-20s | %-30s | %-20s | %-20s | %-20s | \n";
+        String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
 
+        System.out.println(generarLineaHorizontal(116));
         System.out.printf(tablaFormato, "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD (meses)", "RENDIMIENTO");
+        System.out.println(generarLineaHorizontal(116));
 
         for (String[] equipo : inventario) {
             System.out.printf(tablaFormato,
@@ -58,5 +60,11 @@ public class Inventario {
         }
     }
 
-
+    public static String generarLineaHorizontal(int cantidadSimbolos){
+        String linea = "";
+        for (int i = 0; i < cantidadSimbolos; i++) {
+            linea += "=";
+        }
+        return linea;
+    }
 }
