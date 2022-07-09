@@ -1,7 +1,9 @@
-import java.util.LinkedList;
-import java.util.List;
-
 public class Inventario {
+
+    // Constantes
+    public static final String RENDIMIENTO_ALTO = "Alto";
+    public static final String RENDIMIENTO_MEDIO = "Medio";
+    public static final String RENDIMIENTO_BAJO = "Bajo";
 
     public static void main(String[] args) {
 
@@ -17,11 +19,12 @@ public class Inventario {
 
         String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
 
-        System.out.println(generarLineaHorizontal(116));
-        System.out.printf(tablaFormato, "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD (meses)", "RENDIMIENTO");
+
+        System.out.printf("\n" + tablaFormato, "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD (meses)", "RENDIMIENTO");
         System.out.println(generarLineaHorizontal(116));
 
         for (String[] equipo : inventario) {
+
             System.out.printf(tablaFormato,
                 obtenerEquipoCodigo(equipo),
                 obtenerEquipoNombre(equipo),
@@ -29,6 +32,7 @@ public class Inventario {
                 obtenerEquipoAntiguedad(equipo),
                 obtenerEquipoRendimiento(equipo)
             );
+
         }
 
     }
@@ -52,11 +56,11 @@ public class Inventario {
     public static String obtenerEquipoRendimiento(String[] equipo){
         int meses = Integer.parseInt(obtenerEquipoAntiguedad(equipo));
         if(meses >= 0 && meses < 6 ){
-            return "Alto";
+            return RENDIMIENTO_ALTO;
         } else if (meses >= 6 && meses < 12) {
-            return "Medio";
+            return RENDIMIENTO_MEDIO;
         } else {
-            return "Bajo";
+            return RENDIMIENTO_BAJO;
         }
     }
 
