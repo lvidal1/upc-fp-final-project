@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class Inventario {
+public class Inventario {
+
+    public static void main(String[] args) {
+
+    }
 }
