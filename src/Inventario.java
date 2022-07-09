@@ -6,9 +6,7 @@ public class Inventario {
     public static void main(String[] args) {
 
         String inventario[][] = {
-                {
-                    "C0001", "Laptop 1", "Laptop", "3", "Alto"
-                }
+                {"C0001", "Laptop 1", "Laptop", "7"},
         };
 
         listarEquipos(inventario);
@@ -17,16 +15,17 @@ public class Inventario {
 
     public static void listarEquipos ( String inventario[][] ){
 
-        System.out.printf("| %20s | %30s | %20s | %20s | %20s | \n", "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD", "RENDIMIENTO");
+        String tablaFormato = "| %-20s | %-30s | %-20s | %-20s | %-20s | \n";
+
+        System.out.printf(tablaFormato, "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD (meses)", "RENDIMIENTO");
 
         for (String[] equipo : inventario) {
-            System.out.printf("| %20s | %30s | %20s | %20s | %20s |\n",
-                    obtenerEquipoCodigo(equipo),
-                    obtenerEquipoNombre(equipo),
-                    obtenerEquipoCategoria(equipo),
-                    obtenerEquipoCodigo(equipo),
-                    obtenerEquipoAntiguedad(equipo),
-                    obtenerEquipoRendimiento(equipo)
+            System.out.printf(tablaFormato,
+                obtenerEquipoCodigo(equipo),
+                obtenerEquipoNombre(equipo),
+                obtenerEquipoCategoria(equipo),
+                obtenerEquipoAntiguedad(equipo),
+                obtenerEquipoRendimiento(equipo)
             );
         }
 
@@ -49,7 +48,14 @@ public class Inventario {
     }
 
     public static String obtenerEquipoRendimiento(String[] equipo){
-        return equipo[4];
+        int meses = Integer.parseInt(obtenerEquipoAntiguedad(equipo));
+        if(meses >= 0 && meses < 6 ){
+            return "Alto";
+        } else if (meses >= 6 && meses < 12) {
+            return "Medio";
+        } else {
+            return "Bajo";
+        }
     }
 
 
