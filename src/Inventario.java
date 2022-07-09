@@ -1,6 +1,7 @@
 public class Inventario {
 
     // Constantes
+
     public static final String RENDIMIENTO_ALTO = "Alto";
     public static final String RENDIMIENTO_MEDIO = "Medio";
     public static final String RENDIMIENTO_BAJO = "Bajo";
@@ -9,6 +10,10 @@ public class Inventario {
 
         String inventario[][] = {
                 {"C0001", "Laptop 1", "Laptop", "7"},
+                {"C0002", "Laptop 2", "Laptop", "15"},
+                {"C0003", "Impresora 2", "Impresora", "9"},
+                {"C0004", "Tablet 2", "Tablet", "1"},
+                {"C0005", "PC 1", "Desktop", "4"},
         };
 
         listarEquipos(inventario);
