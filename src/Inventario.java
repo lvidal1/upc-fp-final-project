@@ -45,11 +45,11 @@ public class Inventario {
         for (String[] equipo : inventario) {
 
             System.out.printf(tablaFormato,
-                obtenerEquipoCodigo(equipo),
-                obtenerEquipoNombre(equipo),
-                obtenerEquipoCategoria(equipo),
-                obtenerEquipoAntiguedad(equipo),
-                obtenerEquipoRendimiento(equipo)
+                    obtenerEquipoCodigo(equipo),
+                    obtenerEquipoNombre(equipo),
+                    obtenerEquipoCategoria(equipo),
+                    obtenerEquipoAntiguedad(equipo),
+                    obtenerEquipoRendimiento(equipo)
             );
 
         }
