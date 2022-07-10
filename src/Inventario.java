@@ -25,8 +25,14 @@ public class Inventario {
                 {"C0005", "PC 1", "Desktop", "4"},
         };
 
+        String ubicacionesEquipo[][] = {
+                {"C0001", "Area de direccion", "@sbean"},
+                {"C0002", "Aula de innovacion", "@sbean"},
+                {"C0003", "Aula 2", "@sbean"},
+        };
+
         listarEquipos(inventario);
-        generarInformeUbicaciones(inventario);
+        generarInformeUbicaciones(inventario, ubicacionesEquipo);
 
     }
 
@@ -88,7 +94,24 @@ public class Inventario {
         return categorias;
     }
 
-    public static void generarInformeUbicaciones(String[][] inventario){
+    public static void generarInformeUbicaciones(String[][] inventario, String[][] ubicaciones){
+
+        String[] equipo = obtenerEquipoPorTeclado(inventario);
+
+        String codigo = obtenerEquipoCodigo(equipo);
+        int ubicacionIndex = buscarUltimaUbicacion(codigo, ubicaciones);
+
+        String[] ubicacion = (ubicacionIndex != ID_NO_ENCONTRADO) ? ubicaciones[ubicacionIndex] : null;
+
+        System.out.printf("%10s Nombre : %-10s \n", "", obtenerEquipoNombre(equipo));
+        System.out.printf("%10s Categoria : %-10s \n", "", obtenerEquipoCategoria(equipo));
+
+        System.out.printf("%10s Ubicación : %-10s \n", "", (ubicacion == null) ? "No encontrado" : ubicacion[1]);
+        System.out.printf("%10s Usuario  : %-10s \n", "", (ubicacion == null) ? "No encontrado" : ubicacion[2]);
+
+    }
+
+    public static String[] obtenerEquipoPorTeclado(String[][] inventario){
 
         int equipoIndex = ID_NO_ENCONTRADO;
         String codigoBuscar;
@@ -107,9 +130,21 @@ public class Inventario {
 
         } while(equipoIndex == ID_NO_ENCONTRADO);
 
-        String[] equipo = inventario[equipoIndex];
-        System.out.println(obtenerEquipoNombre(equipo));
+        return inventario[equipoIndex];
+    }
 
+    public static int buscarUltimaUbicacion(String codigo, String[][] ubicaciones){
+
+        int equipoIndex = ID_NO_ENCONTRADO;
+
+        for (int i = 0; i < ubicaciones.length; i++) {
+            if(obtenerEquipoCodigo(ubicaciones[i]).equals(codigo)){
+                equipoIndex = i;
+                break;
+            }
+        }
+
+        return equipoIndex;
     }
 
     public static int buscarEquipo(String codigo, String[][] inventario){
