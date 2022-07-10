@@ -11,6 +11,8 @@ public class Inventario {
     public static final String CATEGORIA_LAPTOP = "Laptop";
     public static final String CATEGORIA_TABLET = "Tablet";
 
+    public static final int ID_NO_ENCONTRADO = -1;
+
     public static void main(String[] args) {
 
         String inventario[][] = {
@@ -81,6 +83,31 @@ public class Inventario {
                 CATEGORIA_TABLET
         };
         return categorias;
+    }
+
+    public static void generarInformeUbicaciones(String[][] inventario){
+
+        int equipoIndex = ID_NO_ENCONTRADO;
+
+
+
+
+
+
+    }
+
+    public static int buscarEquipo(String codigo, String[][] inventario){
+
+        int equipoIndex = ID_NO_ENCONTRADO;
+
+        for (int i = 0; i < inventario.length; i++) {
+            if(obtenerEquipoCodigo(inventario[i]).equals(codigo)){
+                equipoIndex = i;
+                break;
+            }
+        }
+
+        return equipoIndex;
     }
 
     public static String generarLineaHorizontal(int cantidadSimbolos){
