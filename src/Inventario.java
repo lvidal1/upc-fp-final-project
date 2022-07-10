@@ -18,21 +18,15 @@ public class Inventario {
     public static void main(String[] args) {
 
         String inventario[][] = {
-                {"C0001", "Laptop 1", "Laptop", "7"},
-                {"C0002", "Laptop 2", "Laptop", "15"},
-                {"C0003", "Impresora 2", "Impresora", "9"},
-                {"C0004", "Tablet 2", "Tablet", "1"},
-                {"C0005", "PC 1", "Desktop", "4"},
+                {"C0001", "Laptop 1", "Laptop", "7", "Area de direccion", "@jnelson", "2022-05-21"},
+                {"C0002", "Laptop 2", "Laptop", "15", "Aula de innovacion", "@sbean", "2022-04-21"},
+                {"C0003", "Impresora 2", "Impresora", "20" ,"Aula 1", "@dmcintosh", "2022-03-01"},
+                {"C0004", "Tablet 2", "Tablet", "1", "Aula 2", "@sbean", "2022-03-31"},
+                {"C0005", "PC 1", "Desktop", "4", "Aula 3", "@hcosta", "2022-05-10"},
         };
 
-        String ubicacionesEquipo[][] = {
-                {"C0001", "Area de direccion", "@sbean"},
-                {"C0002", "Aula de innovacion", "@sbean"},
-                {"C0003", "Aula 2", "@sbean"},
-        };
-
-        listarEquipos(inventario);
-        generarInformeUbicaciones(inventario, ubicacionesEquipo);
+        //listarEquipos(inventario);
+        generarInformeUltimaUbicacion(inventario);
 
     }
 
@@ -57,33 +51,6 @@ public class Inventario {
 
     }
 
-    public static String obtenerEquipoCodigo(String[] equipo){
-        return equipo[0];
-    }
-
-    public static String obtenerEquipoNombre(String[] equipo){
-        return equipo[1];
-    }
-
-    public static String obtenerEquipoCategoria(String[] equipo){
-        return equipo[2];
-    }
-
-    public static String obtenerEquipoAntiguedad(String[] equipo){
-        return equipo[3];
-    }
-
-    public static String obtenerEquipoRendimiento(String[] equipo){
-        int meses = Integer.parseInt(obtenerEquipoAntiguedad(equipo));
-        if(meses >= 0 && meses < 6 ){
-            return RENDIMIENTO_ALTO;
-        } else if (meses >= 6 && meses < 12) {
-            return RENDIMIENTO_MEDIO;
-        } else {
-            return RENDIMIENTO_BAJO;
-        }
-    }
-
     public static String[] obtenerCategorias(){
         String [] categorias = {
                 CATEGORIA_DESKTOP,
@@ -94,26 +61,29 @@ public class Inventario {
         return categorias;
     }
 
-    public static void generarInformeUbicaciones(String[][] inventario, String[][] ubicaciones){
+    public static void generarInformeUltimaUbicacion(String[][] inventario){
 
         String[] equipo = obtenerEquipoPorTeclado(inventario);
+        String tablaFormato = "%-20s: %-10s \n";
 
-        String codigo = obtenerEquipoCodigo(equipo);
-        int ubicacionIndex = buscarUltimaUbicacion(codigo, ubicaciones);
-
-        String[] ubicacion = (ubicacionIndex != ID_NO_ENCONTRADO) ? ubicaciones[ubicacionIndex] : null;
-
-        System.out.printf("%10s Nombre : %-10s \n", "", obtenerEquipoNombre(equipo));
-        System.out.printf("%10s Categoria : %-10s \n", "", obtenerEquipoCategoria(equipo));
-
-        System.out.printf("%10s Ubicación : %-10s \n", "", (ubicacion == null) ? "No encontrado" : ubicacion[1]);
-        System.out.printf("%10s Usuario  : %-10s \n", "", (ubicacion == null) ? "No encontrado" : ubicacion[2]);
+        // Mostrar encabezado del informe
+        System.out.println(generarLineaHorizontal(40));
+        System.out.println("ULTIMA UBICACION");
+        System.out.println(generarLineaHorizontal(40));
+        // Mostrar datos del equipo
+        System.out.printf(tablaFormato, "Nombre", obtenerEquipoNombre(equipo));
+        System.out.printf(tablaFormato, "Categoria", obtenerEquipoCategoria(equipo));
+        System.out.println(generarLineaHorizontal(40));
+        // Mostrar datos de la ubicación
+        System.out.printf(tablaFormato, "Ubicacion", obtenerEquipoUltimaUbicacion(equipo));
+        System.out.printf(tablaFormato, "Usuario", obtenerEquipoUsuarioAsignado(equipo));
+        System.out.printf(tablaFormato, "F. Asignacion", obtenerEquipoFechaAsignado(equipo));
 
     }
 
     public static String[] obtenerEquipoPorTeclado(String[][] inventario){
 
-        int equipoIndex = ID_NO_ENCONTRADO;
+        int equipoIndex;
         String codigoBuscar;
         Scanner lector = new Scanner(System.in);
 
@@ -133,20 +103,6 @@ public class Inventario {
         return inventario[equipoIndex];
     }
 
-    public static int buscarUltimaUbicacion(String codigo, String[][] ubicaciones){
-
-        int equipoIndex = ID_NO_ENCONTRADO;
-
-        for (int i = 0; i < ubicaciones.length; i++) {
-            if(obtenerEquipoCodigo(ubicaciones[i]).equals(codigo)){
-                equipoIndex = i;
-                break;
-            }
-        }
-
-        return equipoIndex;
-    }
-
     public static int buscarEquipo(String codigo, String[][] inventario){
 
         int equipoIndex = ID_NO_ENCONTRADO;
@@ -159,6 +115,45 @@ public class Inventario {
         }
 
         return equipoIndex;
+    }
+
+    public static String obtenerEquipoCodigo(String[] equipo){
+        return equipo[0];
+    }
+
+    public static String obtenerEquipoNombre(String[] equipo){
+        return equipo[1];
+    }
+
+    public static String obtenerEquipoCategoria(String[] equipo){
+        return equipo[2];
+    }
+
+    public static String obtenerEquipoAntiguedad(String[] equipo){
+        return equipo[3];
+    }
+
+    public static String obtenerEquipoUltimaUbicacion(String[] equipo){
+        return equipo[4];
+    }
+
+    public static String obtenerEquipoUsuarioAsignado(String[] equipo){
+        return equipo[5];
+    }
+
+    public static String obtenerEquipoFechaAsignado(String[] equipo){
+        return equipo[6];
+    }
+
+    public static String obtenerEquipoRendimiento(String[] equipo){
+        int meses = Integer.parseInt(obtenerEquipoAntiguedad(equipo));
+        if(meses >= 0 && meses < 6 ){
+            return RENDIMIENTO_ALTO;
+        } else if (meses >= 6 && meses < 12) {
+            return RENDIMIENTO_MEDIO;
+        } else {
+            return RENDIMIENTO_BAJO;
+        }
     }
 
     public static String generarLineaHorizontal(int cantidadSimbolos){
