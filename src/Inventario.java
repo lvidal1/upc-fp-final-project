@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Inventario {
 
     // Constantes
@@ -24,6 +26,7 @@ public class Inventario {
         };
 
         listarEquipos(inventario);
+        generarInformeUbicaciones(inventario);
 
     }
 
@@ -88,11 +91,24 @@ public class Inventario {
     public static void generarInformeUbicaciones(String[][] inventario){
 
         int equipoIndex = ID_NO_ENCONTRADO;
+        String codigoBuscar;
+        Scanner lector = new Scanner(System.in);
 
+        do{
 
+            System.out.println("\nIngrese código:");
+            codigoBuscar = lector.next();
 
+            equipoIndex = buscarEquipo(codigoBuscar, inventario);
 
+            if(equipoIndex == ID_NO_ENCONTRADO){
+                System.out.printf("No encontrado equipo '%s'. Revise el código e intente nuevamente.", codigoBuscar);
+            }
 
+        } while(equipoIndex == ID_NO_ENCONTRADO);
+
+        String[] equipo = inventario[equipoIndex];
+        System.out.println(obtenerEquipoNombre(equipo));
 
     }
 
