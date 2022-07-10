@@ -63,12 +63,28 @@ public class Inventario {
 
     public static void generarInformeUltimaUbicacion(String[][] inventario){
 
+        int opcion;
+        Scanner sc = new Scanner(System.in);
+
         System.out.println("- Revise el inventario e seleccione un codigo:");
         listarEquipos(inventario);
 
-        String[] equipo = obtenerEquipoPorTeclado(inventario);
-        String tablaFormato = "%-20s: %-10s \n";
+        do{
 
+            String[] equipo = obtenerEquipoPorTeclado(inventario);
+            mostrarInformeUltimaUbicacion(equipo);
+
+            System.out.println("\n- Desea ver otro informe?");
+            System.out.println("1. Aceptar");
+            System.out.println("2. Cancelar");
+            opcion = sc.nextInt();
+
+        } while (opcion == 1);
+
+    }
+
+    public static void mostrarInformeUltimaUbicacion(String[] equipo){
+        String tablaFormato = "%-20s: %-10s \n";
         // Mostrar encabezado del informe
         System.out.println(generarLineaHorizontal(40));
         System.out.println("ULTIMA UBICACION");
@@ -81,7 +97,6 @@ public class Inventario {
         System.out.printf(tablaFormato, "Ubicacion", obtenerEquipoUltimaUbicacion(equipo));
         System.out.printf(tablaFormato, "Usuario", obtenerEquipoUsuarioAsignado(equipo));
         System.out.printf(tablaFormato, "F. Asignacion", obtenerEquipoFechaAsignado(equipo));
-
     }
 
     public static String[] obtenerEquipoPorTeclado(String[][] inventario){
