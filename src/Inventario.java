@@ -13,16 +13,21 @@ public class Inventario {
     public static final String CATEGORIA_LAPTOP = "Laptop";
     public static final String CATEGORIA_TABLET = "Tablet";
 
+    public static final String ESTADO_DISPONIBLE = "Disponible";
+    public static final String ESTADO_ENUSO = "En uso";
+    public static final String ESTADO_INACTIVO = "Inactivo";
+    public static final String ESTADO_PERDIDO = "Perdido";
+
     public static final int ID_NO_ENCONTRADO = -1;
 
     public static void main(String[] args) {
 
         String inventario[][] = {
-                {"C0001", "Laptop 1", "Laptop", "7", "Area de direccion", "@jnelson", "2022-05-21"},
-                {"C0002", "Laptop 2", "Laptop", "15", "Aula de innovacion", "@sbean", "2022-04-21"},
-                {"C0003", "Impresora 2", "Impresora", "20" ,"Aula 1", "@dmcintosh", "2022-03-01"},
-                {"C0004", "Tablet 2", "Tablet", "1", "Aula 2", "@sbean", "2022-03-31"},
-                {"C0005", "PC 1", "Desktop", "4", "Aula 3", "@hcosta", "2022-05-10"},
+                {"C0001", "Laptop 1", "Laptop", "7", "Area de direccion", "@jnelson", "2022-05-21", "Disponible"},
+                {"C0002", "Laptop 2", "Laptop", "15", "Aula de innovacion", "@sbean", "2022-04-21", "Perdido"},
+                {"C0003", "Impresora 2", "Impresora", "20" ,"Aula 1", "@dmcintosh", "2022-03-01", "Inactivo"},
+                {"C0004", "Tablet 2", "Tablet", "1", "Aula 2", "@sbean", "2022-03-31","Disponible"},
+                {"C0005", "PC 1", "Desktop", "4", "Aula 3", "@hcosta", "2022-05-10", "En uso"},
         };
 
         //listarEquipos(inventario);
@@ -51,16 +56,6 @@ public class Inventario {
 
     }
 
-    public static String[] obtenerCategorias(){
-        String [] categorias = {
-                CATEGORIA_DESKTOP,
-                CATEGORIA_IMPRESORA,
-                CATEGORIA_LAPTOP,
-                CATEGORIA_TABLET
-        };
-        return categorias;
-    }
-
     public static void generarInformeUltimaUbicacion(String[][] inventario){
 
         int opcion;
@@ -81,22 +76,6 @@ public class Inventario {
 
         } while (opcion == 1);
 
-    }
-
-    public static void mostrarInformeUltimaUbicacion(String[] equipo){
-        String tablaFormato = "%-20s: %-10s \n";
-        // Mostrar encabezado del informe
-        System.out.println(generarLineaHorizontal(40));
-        System.out.println("ULTIMA UBICACION");
-        System.out.println(generarLineaHorizontal(40));
-        // Mostrar datos del equipo
-        System.out.printf(tablaFormato, "Nombre", obtenerEquipoNombre(equipo));
-        System.out.printf(tablaFormato, "Categoria", obtenerEquipoCategoria(equipo));
-        System.out.println(generarLineaHorizontal(40));
-        // Mostrar datos de la ubicación
-        System.out.printf(tablaFormato, "Ubicacion", obtenerEquipoUltimaUbicacion(equipo));
-        System.out.printf(tablaFormato, "Usuario", obtenerEquipoUsuarioAsignado(equipo));
-        System.out.printf(tablaFormato, "F. Asignacion", obtenerEquipoFechaAsignado(equipo));
     }
 
     public static String[] obtenerEquipoPorTeclado(String[][] inventario){
@@ -135,6 +114,42 @@ public class Inventario {
         return equipoIndex;
     }
 
+    public static void mostrarInformeUltimaUbicacion(String[] equipo){
+        String tablaFormato = "%-20s: %-10s \n";
+        // Mostrar encabezado del informe
+        System.out.println(generarLineaHorizontal(40));
+        System.out.println("ULTIMA UBICACION - Estado: " + obtenerEquipoEstado(equipo));
+        System.out.println(generarLineaHorizontal(40));
+        // Mostrar datos del equipo
+        System.out.printf(tablaFormato, "Nombre", obtenerEquipoNombre(equipo));
+        System.out.printf(tablaFormato, "Categoria", obtenerEquipoCategoria(equipo));
+        System.out.println(generarLineaHorizontal(40));
+        // Mostrar datos de la ubicación
+        System.out.printf(tablaFormato, "Ubicacion", obtenerEquipoUltimaUbicacion(equipo));
+        System.out.printf(tablaFormato, "Usuario", obtenerEquipoUsuarioAsignado(equipo));
+        System.out.printf(tablaFormato, "F. Asignacion", obtenerEquipoFechaAsignado(equipo));
+    }
+
+    public static String[] obtenerCategorias(){
+        String [] categorias = {
+                CATEGORIA_DESKTOP,
+                CATEGORIA_IMPRESORA,
+                CATEGORIA_LAPTOP,
+                CATEGORIA_TABLET
+        };
+        return categorias;
+    }
+
+    public static String[] obtenerEstados(){
+        String [] categorias = {
+                ESTADO_DISPONIBLE,
+                ESTADO_ENUSO,
+                ESTADO_INACTIVO,
+                ESTADO_PERDIDO
+        };
+        return categorias;
+    }
+
     public static String obtenerEquipoCodigo(String[] equipo){
         return equipo[0];
     }
@@ -161,6 +176,10 @@ public class Inventario {
 
     public static String obtenerEquipoFechaAsignado(String[] equipo){
         return equipo[6];
+    }
+
+    public static String obtenerEquipoEstado(String[] equipo){
+        return equipo[7];
     }
 
     public static String obtenerEquipoRendimiento(String[] equipo){
