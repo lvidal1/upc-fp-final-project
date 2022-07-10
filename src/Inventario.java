@@ -6,6 +6,11 @@ public class Inventario {
     public static final String RENDIMIENTO_MEDIO = "Medio";
     public static final String RENDIMIENTO_BAJO = "Bajo";
 
+    public static final String CATEGORIA_DESKTOP = "Desktop";
+    public static final String CATEGORIA_IMPRESORA = "Impresora";
+    public static final String CATEGORIA_LAPTOP = "Laptop";
+    public static final String CATEGORIA_TABLET = "Tablet";
+
     public static void main(String[] args) {
 
         String inventario[][] = {
@@ -23,7 +28,6 @@ public class Inventario {
     public static void listarEquipos ( String inventario[][] ){
 
         String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
-
 
         System.out.printf("\n" + tablaFormato, "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD (meses)", "RENDIMIENTO");
         System.out.println(generarLineaHorizontal(116));
@@ -67,6 +71,16 @@ public class Inventario {
         } else {
             return RENDIMIENTO_BAJO;
         }
+    }
+
+    public static String[] obtenerCategorias(){
+        String [] categorias = {
+                CATEGORIA_DESKTOP,
+                CATEGORIA_IMPRESORA,
+                CATEGORIA_LAPTOP,
+                CATEGORIA_TABLET
+        };
+        return categorias;
     }
 
     public static String generarLineaHorizontal(int cantidadSimbolos){
