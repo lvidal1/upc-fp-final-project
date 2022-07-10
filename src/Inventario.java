@@ -63,6 +63,9 @@ public class Inventario {
 
     public static void generarInformeUltimaUbicacion(String[][] inventario){
 
+        System.out.println("- Revise el inventario e seleccione un codigo:");
+        listarEquipos(inventario);
+
         String[] equipo = obtenerEquipoPorTeclado(inventario);
         String tablaFormato = "%-20s: %-10s \n";
 
@@ -89,7 +92,7 @@ public class Inventario {
 
         do{
 
-            System.out.println("\nIngrese código:");
+            System.out.println("\n- Ingrese código:");
             codigoBuscar = lector.next();
 
             equipoIndex = buscarEquipo(codigoBuscar, inventario);
