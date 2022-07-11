@@ -30,9 +30,62 @@ public class Inventario {
                 {"C0005", "PC 1", "Desktop", "4", "Aula 3", "@hcosta", "2022-05-10", "En uso"},
         };
 
-        //listarEquipos(inventario);
-        generarInformeUltimaUbicacion(inventario);
+        int opcion;
 
+        do {
+            opcion = leerOpcionEnMenu();
+
+            if (esOpcionValidaEnMenu(opcion)) {
+
+                switch (opcion){
+                    case 1:
+                        //
+                        break;
+                    case 2:
+                        //
+                        break;
+                    case 3:
+                        listarEquipos(inventario);
+                        break;
+                    case 4:
+                        //
+                        break;
+                    case 5:
+                        generarInformeUltimaUbicacion(inventario);
+                        break;
+                }
+
+            }else{
+                System.out.println("Opcion incorrecta, por favor ingrese una opcion valida. ");
+            }
+
+
+        } while (opcion!=6);
+
+    }
+
+    public static int leerOpcionEnMenu(){
+
+        System.out.println("----------------MENU---------------");
+        System.out.println();
+        System.out.println("1. Agregar nuevo equipo");
+        System.out.println("2. Editar equipo");
+        System.out.println("3. Listar equipos");
+        System.out.println("4. Mostrar informe general");
+        System.out.println("5. Mostrar informe de Última ubicación");
+        System.out.println("6. Salir");
+
+        Scanner scanchoice = new Scanner(System.in);
+
+        return scanchoice.nextInt();
+    }
+
+    public static boolean esOpcionValidaEnMenu(int opcion) {
+        if ((opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5 || opcion == 6)) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public static void listarEquipos ( String inventario[][] ){
