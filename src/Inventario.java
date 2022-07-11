@@ -32,6 +32,10 @@ public class Inventario {
 
         int opcion;
 
+        System.out.println(generarLineaHorizontal(50) );
+        System.out.println("            SISTEMA DE INVENTARIO 2022            ");
+        System.out.println(generarLineaHorizontal(50) );
+
         do {
             opcion = leerOpcionEnMenuPrincipal();
 
@@ -56,7 +60,7 @@ public class Inventario {
                 }
 
             }else{
-                System.out.println("Opcion incorrecta, por favor ingrese una opcion valida. ");
+                System.out.println("Opcion incorrecta. Por favor ingrese una opcion valida. ");
             }
 
         } while (opcion!=6);
@@ -65,7 +69,7 @@ public class Inventario {
 
     public static int leerOpcionEnMenuPrincipal(){
 
-        System.out.println("----------------MENU---------------");
+        System.out.println("\n---------------- MENU PRINCIPAL ---------------");
         System.out.println();
         System.out.println("1. Agregar nuevo equipo");
         System.out.println("2. Editar equipo");
@@ -75,6 +79,7 @@ public class Inventario {
         System.out.println("6. Salir");
 
         Scanner scanchoice = new Scanner(System.in);
+        System.out.println("- Ingrese opcion:");
 
         return scanchoice.nextInt();
     }
