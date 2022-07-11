@@ -33,7 +33,7 @@ public class Inventario {
         int opcion;
 
         do {
-            opcion = leerOpcionEnMenu();
+            opcion = leerOpcionEnMenuPrincipal();
 
             if (esOpcionValidaEnMenu(opcion)) {
 
@@ -59,12 +59,11 @@ public class Inventario {
                 System.out.println("Opcion incorrecta, por favor ingrese una opcion valida. ");
             }
 
-
         } while (opcion!=6);
 
     }
 
-    public static int leerOpcionEnMenu(){
+    public static int leerOpcionEnMenuPrincipal(){
 
         System.out.println("----------------MENU---------------");
         System.out.println();
@@ -81,11 +80,7 @@ public class Inventario {
     }
 
     public static boolean esOpcionValidaEnMenu(int opcion) {
-        if ((opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5 || opcion == 6)) {
-            return true;
-        }else{
-            return false;
-        }
+        return (opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5 || opcion == 6);
     }
 
     public static void listarEquipos ( String inventario[][] ){
