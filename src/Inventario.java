@@ -26,20 +26,9 @@ public class Inventario {
 
     public static void main(String[] args) {
 
-        String inventario[][] = {
-                {"C0001", "Laptop 1", "Laptop", "7", "Area de direccion", "@jnelson", "2022-05-21", "Disponible"},
-                {"C0002", "Laptop 2", "Laptop", "15", "Aula de innovacion", "@sbean", "2022-04-21", "Perdido"},
-                {"C0003", "Impresora 2", "Impresora", "20" ,"Aula 1", "@dmcintosh", "2022-03-01", "Inactivo"},
-                {"C0004", "Tablet 2", "Tablet", "1", "Aula 2", "@sbean", "2022-03-31","Disponible"},
-                {"C0005", "PC 1", "Desktop", "4", "Aula 3", "@hcosta", "2022-05-10", "En uso"},
-        };
 
+        List<Equipo> inventario = cargarInventarioInicial();
 
-        List<Equipo> a = cargarInventarioInicial();
-
-        for (int i = 0; i < a.size(); i++) {
-            System.out.println(a.get(i).getRendimiento());
-        }
 
         int opcion;
 
@@ -66,7 +55,7 @@ public class Inventario {
                         //
                         break;
                     case 5:
-                        generarInformeUltimaUbicacion(inventario);
+                        //generarInformeUltimaUbicacion(inventario);
                         break;
                 }
 
@@ -132,21 +121,21 @@ public class Inventario {
         return (opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5 || opcion == 6);
     }
 
-    public static void listarEquipos ( String inventario[][] ){
+    public static void listarEquipos ( List<Equipo> inventario ){
 
         String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
 
-        System.out.printf("\n" + tablaFormato, "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD (meses)", "RENDIMIENTO");
+        System.out.printf("\n" + tablaFormato, "CODIGO", "CATEGORIA", "MARCA", "ANTIGUEDAD (meses)", "RENDIMIENTO");
         System.out.println(generarLineaHorizontal(116));
 
-        for (String[] equipo : inventario) {
+        for (Equipo equipo : inventario) {
 
             System.out.printf(tablaFormato,
-                    obtenerEquipoCodigo(equipo),
-                    obtenerEquipoNombre(equipo),
-                    obtenerEquipoCategoria(equipo),
-                    obtenerEquipoAntiguedad(equipo),
-                    obtenerEquipoRendimiento(equipo)
+                    equipo.getCodigo(),
+                    equipo.getCategoria(),
+                    equipo.getMarca(),
+                    equipo.getAntiguedad(),
+                    equipo.getRendimiento()
             );
 
         }
@@ -159,7 +148,7 @@ public class Inventario {
         Scanner sc = new Scanner(System.in);
 
         System.out.println("- Revise el inventario e seleccione un codigo:");
-        listarEquipos(inventario);
+        //listarEquipos(inventario);
 
         do{
 
