@@ -55,7 +55,7 @@ public class Inventario {
                         //
                         break;
                     case 5:
-                        //generarInformeUltimaUbicacion(inventario);
+                        generarInformeUltimaUbicacion(inventario);
                         break;
                 }
 
@@ -142,18 +142,18 @@ public class Inventario {
 
     }
 
-    public static void generarInformeUltimaUbicacion(String[][] inventario){
+    public static void generarInformeUltimaUbicacion(List<Equipo> inventario){
 
         int opcion;
         Scanner sc = new Scanner(System.in);
 
         System.out.println("- Revise el inventario e seleccione un codigo:");
-        //listarEquipos(inventario);
+        listarEquipos(inventario);
 
         do{
 
-            String[] equipo = obtenerEquipoPorTeclado(inventario);
-            mostrarInformeUltimaUbicacion(equipo);
+            Equipo equipoEncontrado = obtenerEquipoPorTeclado(inventario);
+            mostrarInformeUltimaUbicacion(equipoEncontrado);
 
             System.out.println("\n- Desea ver otro informe?");
             System.out.println("1. Aceptar");
@@ -164,7 +164,7 @@ public class Inventario {
 
     }
 
-    public static String[] obtenerEquipoPorTeclado(String[][] inventario){
+    public static Equipo obtenerEquipoPorTeclado(List<Equipo> inventario){
 
         int equipoIndex;
         String codigoBuscar;
@@ -183,15 +183,15 @@ public class Inventario {
 
         } while(equipoIndex == ID_NO_ENCONTRADO);
 
-        return inventario[equipoIndex];
+        return inventario.get(equipoIndex);
     }
 
-    public static int buscarEquipo(String codigo, String[][] inventario){
+    public static int buscarEquipo(String codigo, List<Equipo> inventario){
 
         int equipoIndex = ID_NO_ENCONTRADO;
 
-        for (int i = 0; i < inventario.length; i++) {
-            if(obtenerEquipoCodigo(inventario[i]).equals(codigo)){
+        for (int i = 0; i < inventario.size(); i++) {
+            if(inventario.get(i).getCodigo().equals(codigo)){
                 equipoIndex = i;
                 break;
             }
@@ -200,20 +200,20 @@ public class Inventario {
         return equipoIndex;
     }
 
-    public static void mostrarInformeUltimaUbicacion(String[] equipo){
+    public static void mostrarInformeUltimaUbicacion(Equipo equipo){
         String tablaFormato = "%-20s: %-10s \n";
         // Mostrar encabezado del informe
         System.out.println(generarLineaHorizontal(40));
-        System.out.println("ULTIMA UBICACION - Estado: " + obtenerEquipoEstado(equipo));
+        System.out.println("ULTIMA UBICACION - Estado: " + equipo.getEstado());
         System.out.println(generarLineaHorizontal(40));
         // Mostrar datos del equipo
-        System.out.printf(tablaFormato, "Nombre", obtenerEquipoNombre(equipo));
-        System.out.printf(tablaFormato, "Categoria", obtenerEquipoCategoria(equipo));
+        System.out.printf(tablaFormato, "Marca", equipo.getMarca());
+        System.out.printf(tablaFormato, "Categoria", equipo.getCategoria());
         System.out.println(generarLineaHorizontal(40));
         // Mostrar datos de la ubicación
-        System.out.printf(tablaFormato, "Ubicacion", obtenerEquipoUltimaUbicacion(equipo));
-        System.out.printf(tablaFormato, "Usuario", obtenerEquipoUsuarioAsignado(equipo));
-        System.out.printf(tablaFormato, "F. Asignacion", obtenerEquipoFechaAsignado(equipo));
+        System.out.printf(tablaFormato, "Ubicacion", equipo.getUltimaUbicacion());
+        System.out.printf(tablaFormato, "Usuario", equipo.getUsuarioAsignado());
+        System.out.printf(tablaFormato, "F. Asignacion", equipo.getFechaAsignado());
     }
 
     public static String[] obtenerCategorias(){
