@@ -182,6 +182,62 @@ public class Inventario {
         System.out.println("=============================================");
     }
 
+    public static void editarEquipo(String codigoEquipo , List<Equipo> inventario){
+        Scanner ae = new Scanner(System.in);
+        String categoria;
+        String estado;
+        int antiguedad;
+        boolean opcionValida = false;
+        System.out.println("Ingresar los siguientes datos: ");
+
+        do {
+            categoriaEquipo();
+            System.out.print("Categoria del equipo: ");
+            categoria = ae.nextLine();
+            opcionValida = validarCategoriaEquipo(categoria);
+
+        }while (!opcionValida);
+
+        System.out.print("Marca del equipo: ");
+        String marca = ae.nextLine();
+
+        System.out.print("Modelo del equipo: ");
+        String modelo = ae.nextLine();
+
+        System.out.print("Almacenamiento interno del equipo: ");
+        String HDD = ae.nextLine();
+
+        System.out.print("Capacidad de memoria RAM del equipo: ");
+        String RAM = ae.nextLine();
+
+        System.out.print("CPU del equipo: ");
+        String CPU = ae.nextLine();
+
+        System.out.print("GPU del equipo: ");
+        String GPU = ae.nextLine();
+
+        do {
+            estadoEquipo();
+            System.out.print("Estado actual del equipo: ");
+            estado = ae.nextLine();
+            opcionValida = validarEstadoEquipo(estado);
+
+        }while (!opcionValida);
+
+        System.out.print("Comentario del equipo: ");
+        String comentario = ae.nextLine();
+
+        do {
+            antiguedadEquipo();
+            System.out.print("Antiguedad del equipo: ");
+            antiguedad = ae.nextInt();
+            opcionValida = validarAntiguedadEquipo(antiguedad);
+
+        }while (!opcionValida);
+
+        //resumenEquipoEditado(codigoEquipo, categoria, marca, modelo, HDD, RAM, CPU, GPU, estado, antiguedad, comentario);
+    }
+
     public static void categoriaEquipo(){
         System.out.println("------------CATEGORIAS DE EQUIPOS------------");
         System.out.println("----Laptop | Desktop | Tablet | Impresora----");
