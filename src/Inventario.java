@@ -235,50 +235,7 @@ public class Inventario {
         };
         return categorias;
     }
-
-    public static String obtenerEquipoCodigo(String[] equipo){
-        return equipo[0];
-    }
-
-    public static String obtenerEquipoNombre(String[] equipo){
-        return equipo[1];
-    }
-
-    public static String obtenerEquipoCategoria(String[] equipo){
-        return equipo[2];
-    }
-
-    public static String obtenerEquipoAntiguedad(String[] equipo){
-        return equipo[3];
-    }
-
-    public static String obtenerEquipoUltimaUbicacion(String[] equipo){
-        return equipo[4];
-    }
-
-    public static String obtenerEquipoUsuarioAsignado(String[] equipo){
-        return equipo[5];
-    }
-
-    public static String obtenerEquipoFechaAsignado(String[] equipo){
-        return equipo[6];
-    }
-
-    public static String obtenerEquipoEstado(String[] equipo){
-        return equipo[7];
-    }
-
-    public static String obtenerEquipoRendimiento(String[] equipo){
-        int meses = Integer.parseInt(obtenerEquipoAntiguedad(equipo));
-        if(meses >= 0 && meses < 6 ){
-            return RENDIMIENTO_ALTO;
-        } else if (meses >= 6 && meses < 12) {
-            return RENDIMIENTO_MEDIO;
-        } else {
-            return RENDIMIENTO_BAJO;
-        }
-    }
-
+    
     public static String generarLineaHorizontal(int cantidadSimbolos){
         String linea = "";
         for (int i = 0; i < cantidadSimbolos; i++) {
