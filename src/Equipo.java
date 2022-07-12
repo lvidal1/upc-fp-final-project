@@ -6,7 +6,7 @@ public class Equipo {
     public static final String RENDIMIENTO_MEDIO = "Medio";
     public static final String RENDIMIENTO_BAJO = "Bajo";
 
-    private String codigoEquipo;
+    private String codigo;
     private String categoria;
     private String marca;
     private String modelo;
@@ -21,7 +21,7 @@ public class Equipo {
     private String usuarioAsignado;
     private String fechaAsignado;
 
-    public Equipo(String codigoEquipo,
+    public Equipo(String codigo,
                   String categoria,
                   String marca,
                   String modelo,
@@ -37,7 +37,7 @@ public class Equipo {
                   String fechaAsignado
     ) {
 
-        this.codigoEquipo = codigoEquipo;
+        this.codigo = codigo;
         this.categoria = categoria;
         this.marca = marca;
         this.modelo = modelo;
@@ -54,12 +54,12 @@ public class Equipo {
 
     }
 
-    public String getCodigoEquipo() {
-        return codigoEquipo;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setCodigoEquipo(String codigoEquipo) {
-        this.codigoEquipo = codigoEquipo;
+    public void setCodigoEquipo(String codigo) {
+        this.codigo = codigo;
     }
     public String getCategoria() {
         return categoria;
