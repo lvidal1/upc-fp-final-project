@@ -39,7 +39,7 @@ public class Inventario {
 
                 switch (opcion){
                     case 1:
-                        //
+                        agregarNuevoEquipo(inventario);
                         break;
                     case 2:
                         //
@@ -115,6 +115,126 @@ public class Inventario {
 
     public static boolean esOpcionValidaEnMenu(int opcion) {
         return (opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5 || opcion == 6);
+    }
+
+    public static void agregarNuevoEquipo(List<Equipo> inventario){
+        Scanner ae = new Scanner(System.in);
+        String categoria;
+        String estado;
+        int antiguedad;
+        boolean opcionValida = false;
+        System.out.println("Ingresar los siguientes datos: ");
+        System.out.print("Ingresar nuevo codigo: ");//C0006
+        String codigoEquipo = ae.nextLine();
+
+        do {
+            categoriaEquipo();
+            System.out.print("Categoria del equipo: ");
+            categoria = ae.nextLine();
+            opcionValida = validarCategoriaEquipo(categoria);
+
+        }while (!opcionValida);
+
+        System.out.print("Marca del equipo: ");
+        String marca = ae.nextLine();
+
+        System.out.print("Modelo del equipo: ");
+        String modelo = ae.nextLine();
+
+        System.out.print("Almacenamiento interno del equipo: ");
+        String HDD = ae.nextLine();
+
+        System.out.print("Capacidad de memoria RAM del equipo: ");
+        String RAM = ae.nextLine();
+
+        System.out.print("CPU del equipo: ");
+        String CPU = ae.nextLine();
+
+        System.out.print("GPU del equipo: ");
+        String GPU = ae.nextLine();
+
+        do {
+            estadoEquipo();
+            System.out.print("Estado actual del equipo: ");
+            estado = ae.nextLine();
+            opcionValida = validarEstadoEquipo(estado);
+
+        }while (!opcionValida);
+
+        System.out.print("Comentario del equipo: ");
+        String comentario = ae.nextLine();
+
+        do {
+            antiguedadEquipo();
+            System.out.print("Antiguedad del equipo: ");
+            antiguedad = ae.nextInt();
+            opcionValida = validarAntiguedadEquipo(antiguedad);
+
+        }while (!opcionValida);
+
+        inventario.add(new Equipo(codigoEquipo, categoria, marca, modelo, HDD, RAM, CPU, GPU, estado, antiguedad, comentario , "-" , "-", "-"));
+        System.out.println("=============================================");
+        System.out.println("NUEVO EQUIPO AGREGADO");
+        System.out.println("---------------------------------------------");
+        //resumenEquipo(listNuevoEquipo);
+        System.out.println("---------------------------------------------");
+        System.out.println("EXITO AL GUARDAR DATOS DEL NUEVO EQUIPO");
+        System.out.println("=============================================");
+    }
+
+    public static void categoriaEquipo(){
+        System.out.println("------------CATEGORIAS DE EQUIPOS------------");
+        System.out.println("----Laptop | Desktop | Tablet | Impresora----");
+    }
+
+    public static void estadoEquipo(){
+        System.out.println("-------------ESTADOS DEL EQUIPOS-------------");
+        System.out.println("---------------Nuevo | Antiguo---------------");
+    }
+
+    public static void antiguedadEquipo(){
+        System.out.println("--------EXPRESAR ANTIGUEDAD EN MESES---------");
+        System.out.println("-------CONSIDERAR 0 COMO EQUIPO NUEVO--------");
+    }
+
+    public static boolean validarCategoriaEquipo(String opcion) {
+        boolean resultado = false;
+
+        if (opcion.equalsIgnoreCase("LAPTOP") ||
+                opcion.equalsIgnoreCase("DESKTOP") ||
+                opcion.equalsIgnoreCase("TABLET") ||
+                opcion.equalsIgnoreCase("IMPRESORA")) {
+            resultado = true;
+        } else {
+            resultado =  false;
+        }
+
+        return resultado;
+    }
+
+    public static boolean validarEstadoEquipo(String opcion) {
+        boolean resultado = false;
+
+        if (opcion.equalsIgnoreCase("NUEVO") ||
+                opcion.equalsIgnoreCase("ANTIGUO")) {
+            resultado = true;
+        } else {
+            resultado =  false;
+        }
+
+        return resultado;
+    }
+
+    public static boolean validarAntiguedadEquipo(int opcion) {
+        boolean resultado = false;
+
+        if (opcion >= 0) {
+            resultado = true;
+        } else {
+            resultado =  false;
+        }
+
+        return resultado;
     }
 
     public static void listarEquipos ( List<Equipo> inventario ){
