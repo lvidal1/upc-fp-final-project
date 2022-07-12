@@ -1,3 +1,7 @@
+import Integration.nuevoEquipo;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Inventario {
@@ -29,6 +33,13 @@ public class Inventario {
                 {"C0004", "Tablet 2", "Tablet", "1", "Aula 2", "@sbean", "2022-03-31","Disponible"},
                 {"C0005", "PC 1", "Desktop", "4", "Aula 3", "@hcosta", "2022-05-10", "En uso"},
         };
+
+
+        List<Equipo> a = cargarInventarioInicial();
+
+        for (int i = 0; i < a.size(); i++) {
+            System.out.println(a.get(i).getRendimiento());
+        }
 
         int opcion;
 
@@ -65,6 +76,39 @@ public class Inventario {
 
         } while (opcion!=6);
 
+    }
+
+    public static List<Equipo> cargarInventarioInicial() {
+
+        List<Equipo> inventario = new ArrayList<>();
+
+        String data[][] = {
+                {"C0001", "Laptop", "HP", "MODEL-1",  "1TB", "16GB", "Ryzen 5", "-", "Perdido", "15", "2021-05-21",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0002", "Impresora", "Epson", "MODEL-1", "-", "-", "-", "-", "Inactivo", "20", "2021-03-21",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0003", "Tablet", "HP", "MODEL-1", "256GB", "2GB", "Ryzen 5", "-", "Disponible", "7", "2020-05-29",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0004", "Laptop", "Dell", "MODEL-1", "1TB", "16GB", "Ryzen 7", "-", "En uso", "2", "2020-02-21",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0005", "Desktop", "HP", "MODEL-1", "2TB", "8GB", "Ryzen 3", "-", "Disponible", "3", "2021-01-01",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+        };
+
+        for (String[] equipo : data) {
+            inventario.add(new Equipo(
+                    equipo[0],
+                    equipo[1],
+                    equipo[2],
+                    equipo[3],
+                    equipo[4],
+                    equipo[5],
+                    equipo[6],
+                    equipo[7],
+                    equipo[8],
+                    Integer.parseInt(equipo[9]),
+                    equipo[10],
+                    equipo[11],
+                    equipo[12],
+                    equipo[13]));
+        }
+
+        return inventario;
     }
 
     public static int leerOpcionEnMenuPrincipal(){
