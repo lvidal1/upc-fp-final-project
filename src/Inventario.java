@@ -8,10 +8,6 @@ public class Inventario {
 
     // Constantes
 
-    public static final String RENDIMIENTO_ALTO = "Alto";
-    public static final String RENDIMIENTO_MEDIO = "Medio";
-    public static final String RENDIMIENTO_BAJO = "Bajo";
-
     public static final String CATEGORIA_DESKTOP = "Desktop";
     public static final String CATEGORIA_IMPRESORA = "Impresora";
     public static final String CATEGORIA_LAPTOP = "Laptop";
@@ -235,7 +231,7 @@ public class Inventario {
         };
         return categorias;
     }
-    
+
     public static String generarLineaHorizontal(int cantidadSimbolos){
         String linea = "";
         for (int i = 0; i < cantidadSimbolos; i++) {
