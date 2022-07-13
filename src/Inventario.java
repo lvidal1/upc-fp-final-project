@@ -1,12 +1,12 @@
+import Integration.nuevoEquipo;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Inventario {
 
     // Constantes
-
-    public static final String RENDIMIENTO_ALTO = "Alto";
-    public static final String RENDIMIENTO_MEDIO = "Medio";
-    public static final String RENDIMIENTO_BAJO = "Bajo";
 
     public static final String CATEGORIA_DESKTOP = "Desktop";
     public static final String CATEGORIA_IMPRESORA = "Impresora";
@@ -22,13 +22,7 @@ public class Inventario {
 
     public static void main(String[] args) {
 
-        String inventario[][] = {
-                {"C0001", "Laptop 1", "Laptop", "7", "Area de direccion", "@jnelson", "2022-05-21", "Disponible"},
-                {"C0002", "Laptop 2", "Laptop", "15", "Aula de innovacion", "@sbean", "2022-04-21", "Perdido"},
-                {"C0003", "Impresora 2", "Impresora", "20" ,"Aula 1", "@dmcintosh", "2022-03-01", "Inactivo"},
-                {"C0004", "Tablet 2", "Tablet", "1", "Aula 2", "@sbean", "2022-03-31","Disponible"},
-                {"C0005", "PC 1", "Desktop", "4", "Aula 3", "@hcosta", "2022-05-10", "En uso"},
-        };
+        List<Equipo> inventario = cargarInventarioInicial();
 
         int opcion;
 
@@ -43,10 +37,10 @@ public class Inventario {
 
                 switch (opcion){
                     case 1:
-                        //
+                        agregarEquipo(inventario);
                         break;
                     case 2:
-                        //
+                        editarEquipo(inventario);
                         break;
                     case 3:
                         listarEquipos(inventario);
@@ -65,6 +59,39 @@ public class Inventario {
 
         } while (opcion!=6);
 
+    }
+
+    public static List<Equipo> cargarInventarioInicial() {
+
+        List<Equipo> inventario = new ArrayList<>();
+
+        String data[][] = {
+                {"C0001", "Laptop", "HP", "MODEL-1",  "1TB", "16GB", "Ryzen 5", "-", "Perdido", "15", "2021-05-21",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0002", "Impresora", "Epson", "MODEL-1", "-", "-", "-", "-", "Inactivo", "20", "2021-03-21",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0003", "Tablet", "HP", "MODEL-1", "256GB", "2GB", "Ryzen 5", "-", "Disponible", "7", "2020-05-29",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0004", "Laptop", "Dell", "MODEL-1", "1TB", "16GB", "Ryzen 7", "-", "En uso", "2", "2020-02-21",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+                {"C0005", "Desktop", "HP", "MODEL-1", "2TB", "8GB", "Ryzen 3", "-", "Disponible", "3", "2021-01-01",  "Area de direccion", "@jnelson", "2022-05-21", "-"},
+        };
+
+        for (String[] equipo : data) {
+            inventario.add(new Equipo(
+                    equipo[0],
+                    equipo[1],
+                    equipo[2],
+                    equipo[3],
+                    equipo[4],
+                    equipo[5],
+                    equipo[6],
+                    equipo[7],
+                    equipo[8],
+                    Integer.parseInt(equipo[9]),
+                    equipo[10],
+                    equipo[11],
+                    equipo[12],
+                    equipo[13]));
+        }
+
+        return inventario;
     }
 
     public static int leerOpcionEnMenuPrincipal(){
@@ -88,28 +115,171 @@ public class Inventario {
         return (opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5 || opcion == 6);
     }
 
-    public static void listarEquipos ( String inventario[][] ){
+    public static void agregarEquipo(List<Equipo> inventario){
+
+        Equipo equipo = leerFormularioEquipo(null);
+
+        inventario.add(equipo);
+
+        System.out.println("---------------------------------------------");
+        System.out.println("EXITO AL GUARDAR DATOS DEL NUEVO EQUIPO");
+        System.out.println("=============================================");
+    }
+
+    public static void editarEquipo(List<Equipo> inventario){
+
+        listarEquipos(inventario);
+
+        int equipoIndex = obtenerEquipoPorTeclado(inventario);
+
+        Equipo equipo = leerFormularioEquipo(inventario.get(equipoIndex));
+
+        inventario.set(equipoIndex, equipo);
+
+        System.out.println("---------------------------------------------");
+        System.out.println("EXITO AL EDITAR DATOS DEL NUEVO EQUIPO");
+        System.out.println("=============================================");
+    }
+
+    public static Equipo leerFormularioEquipo( Equipo... equipo ){
+
+        Scanner ae = new Scanner(System.in);
+
+        boolean esEditarForm = (equipo.length > 0);
+        boolean opcionValida = false;
+        int antiguedad;
+
+        String categoria;
+        String estado;
+        String codigoEquipo;
+
+        if(!esEditarForm){
+            System.out.println("Nuevo equipo: ");
+            System.out.print("Ingresar nuevo codigo: ");//C0006
+            codigoEquipo = ae.nextLine();
+        }else{
+            codigoEquipo = equipo[0].getCodigo();
+            System.out.println("Editando equipo: "+ codigoEquipo);
+        }
+
+        do {
+            categoriaEquipo();
+            System.out.printf("Categoria del equipo %s :", (esEditarForm ?  "("+equipo[0].getCategoria()+")" : ""));
+            categoria = ae.nextLine();
+            opcionValida = validarCategoriaEquipo(categoria);
+
+        } while (!opcionValida);
+
+        System.out.printf("Marca del equipo %s :", (esEditarForm ?  "("+equipo[0].getMarca()+")" : ""));
+        String marca = ae.nextLine();
+
+        System.out.printf("Modelo del equipo %s :", (esEditarForm ?  "("+equipo[0].getModelo()+")" : ""));
+        String modelo = ae.nextLine();
+
+        System.out.printf("Almacenamiento interno del equipo %s :", (esEditarForm ?  "("+equipo[0].getHDD()+")" : ""));
+        String HDD = ae.nextLine();
+
+        System.out.printf("Capacidad de memoria RAM del equipo %s :", (esEditarForm ?  "("+equipo[0].getRAM()+")" : ""));
+        String RAM = ae.nextLine();
+
+        System.out.printf("CPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getCPU()+")" : ""));
+        String CPU = ae.nextLine();
+
+        System.out.printf("GPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getGPU()+")" : ""));
+        String GPU = ae.nextLine();
+
+        do {
+            estadoEquipo();
+            System.out.printf("Estado actual del equipo %s :", (esEditarForm ?  "("+equipo[0].getEstado()+")" : ""));
+            estado = ae.nextLine();
+            opcionValida = validarEstadoEquipo(estado);
+
+        }while (!opcionValida);
+
+        do {
+            antiguedadEquipo();
+            System.out.printf("Antiguedad del equipo (meses) %s :", (esEditarForm ?  "("+equipo[0].getAntiguedad()+")" : ""));
+            antiguedad = ae.nextInt();
+            opcionValida = validarAntiguedadEquipo(antiguedad);
+
+        }while (!opcionValida);
+
+        System.out.printf("Comentario del equipo:");
+        String comentario = ae.nextLine();
+
+        return new Equipo(
+                codigoEquipo,
+                categoria,
+                marca,
+                modelo,
+                HDD,
+                RAM,
+                CPU,
+                GPU,
+                estado,
+                antiguedad,
+                comentario , "-" , "-", "-");
+    }
+
+    public static void categoriaEquipo(){
+        System.out.println("------------CATEGORIAS DE EQUIPOS------------");
+        System.out.println("---- " + String.join(" | ", obtenerCategorias()) + " ----");
+    }
+
+    public static void estadoEquipo(){
+        System.out.println("-------------ESTADOS DEL EQUIPOS-------------");
+        System.out.println("--------------- " + String.join(" | ", obtenerEstados()) + " ---------------");
+    }
+
+    public static void antiguedadEquipo(){
+        System.out.println("--------EXPRESAR ANTIGUEDAD EN MESES---------");
+        System.out.println("-------CONSIDERAR 0 COMO EQUIPO NUEVO--------");
+    }
+
+    public static boolean validarCategoriaEquipo(String opcion) {
+        for (String categoria : obtenerCategorias()) {
+            if (opcion.equalsIgnoreCase(categoria)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean validarEstadoEquipo(String opcion) {
+        for (String estado : obtenerEstados()) {
+            if (opcion.equalsIgnoreCase(estado)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean validarAntiguedadEquipo(int opcion) {
+        return opcion >= 0;
+    }
+
+    public static void listarEquipos ( List<Equipo> inventario ){
 
         String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
 
-        System.out.printf("\n" + tablaFormato, "CODIGO","NOMBRE","CATEGORIA","ANTIGUEDAD (meses)", "RENDIMIENTO");
+        System.out.printf("\n" + tablaFormato, "CODIGO", "CATEGORIA", "MARCA", "ANTIGUEDAD (meses)", "RENDIMIENTO");
         System.out.println(generarLineaHorizontal(116));
 
-        for (String[] equipo : inventario) {
+        for (Equipo equipo : inventario) {
 
             System.out.printf(tablaFormato,
-                    obtenerEquipoCodigo(equipo),
-                    obtenerEquipoNombre(equipo),
-                    obtenerEquipoCategoria(equipo),
-                    obtenerEquipoAntiguedad(equipo),
-                    obtenerEquipoRendimiento(equipo)
+                    equipo.getCodigo(),
+                    equipo.getCategoria(),
+                    equipo.getMarca(),
+                    equipo.getAntiguedad(),
+                    equipo.getRendimiento()
             );
 
         }
 
     }
 
-    public static void generarInformeUltimaUbicacion(String[][] inventario){
+    public static void generarInformeUltimaUbicacion(List<Equipo> inventario){
 
         int opcion;
         Scanner sc = new Scanner(System.in);
@@ -119,8 +289,8 @@ public class Inventario {
 
         do{
 
-            String[] equipo = obtenerEquipoPorTeclado(inventario);
-            mostrarInformeUltimaUbicacion(equipo);
+            int equipoIndex = obtenerEquipoPorTeclado(inventario);
+            mostrarInformeUltimaUbicacion(inventario.get(equipoIndex));
 
             System.out.println("\n- Desea ver otro informe?");
             System.out.println("1. Aceptar");
@@ -131,7 +301,7 @@ public class Inventario {
 
     }
 
-    public static String[] obtenerEquipoPorTeclado(String[][] inventario){
+    public static int obtenerEquipoPorTeclado(List<Equipo> inventario){
 
         int equipoIndex;
         String codigoBuscar;
@@ -150,15 +320,15 @@ public class Inventario {
 
         } while(equipoIndex == ID_NO_ENCONTRADO);
 
-        return inventario[equipoIndex];
+        return equipoIndex;
     }
 
-    public static int buscarEquipo(String codigo, String[][] inventario){
+    public static int buscarEquipo(String codigo, List<Equipo> inventario){
 
         int equipoIndex = ID_NO_ENCONTRADO;
 
-        for (int i = 0; i < inventario.length; i++) {
-            if(obtenerEquipoCodigo(inventario[i]).equals(codigo)){
+        for (int i = 0; i < inventario.size(); i++) {
+            if(inventario.get(i).getCodigo().equals(codigo)){
                 equipoIndex = i;
                 break;
             }
@@ -167,20 +337,20 @@ public class Inventario {
         return equipoIndex;
     }
 
-    public static void mostrarInformeUltimaUbicacion(String[] equipo){
+    public static void mostrarInformeUltimaUbicacion(Equipo equipo){
         String tablaFormato = "%-20s: %-10s \n";
         // Mostrar encabezado del informe
         System.out.println(generarLineaHorizontal(40));
-        System.out.println("ULTIMA UBICACION - Estado: " + obtenerEquipoEstado(equipo));
+        System.out.println("ULTIMA UBICACION - Estado: " + equipo.getEstado());
         System.out.println(generarLineaHorizontal(40));
         // Mostrar datos del equipo
-        System.out.printf(tablaFormato, "Nombre", obtenerEquipoNombre(equipo));
-        System.out.printf(tablaFormato, "Categoria", obtenerEquipoCategoria(equipo));
+        System.out.printf(tablaFormato, "Marca", equipo.getMarca());
+        System.out.printf(tablaFormato, "Categoria", equipo.getCategoria());
         System.out.println(generarLineaHorizontal(40));
         // Mostrar datos de la ubicación
-        System.out.printf(tablaFormato, "Ubicacion", obtenerEquipoUltimaUbicacion(equipo));
-        System.out.printf(tablaFormato, "Usuario", obtenerEquipoUsuarioAsignado(equipo));
-        System.out.printf(tablaFormato, "F. Asignacion", obtenerEquipoFechaAsignado(equipo));
+        System.out.printf(tablaFormato, "Ubicacion", equipo.getUltimaUbicacion());
+        System.out.printf(tablaFormato, "Usuario", equipo.getUsuarioAsignado());
+        System.out.printf(tablaFormato, "F. Asignacion", equipo.getFechaAsignado());
     }
 
     public static String[] obtenerCategorias(){
@@ -201,49 +371,6 @@ public class Inventario {
                 ESTADO_PERDIDO
         };
         return categorias;
-    }
-
-    public static String obtenerEquipoCodigo(String[] equipo){
-        return equipo[0];
-    }
-
-    public static String obtenerEquipoNombre(String[] equipo){
-        return equipo[1];
-    }
-
-    public static String obtenerEquipoCategoria(String[] equipo){
-        return equipo[2];
-    }
-
-    public static String obtenerEquipoAntiguedad(String[] equipo){
-        return equipo[3];
-    }
-
-    public static String obtenerEquipoUltimaUbicacion(String[] equipo){
-        return equipo[4];
-    }
-
-    public static String obtenerEquipoUsuarioAsignado(String[] equipo){
-        return equipo[5];
-    }
-
-    public static String obtenerEquipoFechaAsignado(String[] equipo){
-        return equipo[6];
-    }
-
-    public static String obtenerEquipoEstado(String[] equipo){
-        return equipo[7];
-    }
-
-    public static String obtenerEquipoRendimiento(String[] equipo){
-        int meses = Integer.parseInt(obtenerEquipoAntiguedad(equipo));
-        if(meses >= 0 && meses < 6 ){
-            return RENDIMIENTO_ALTO;
-        } else if (meses >= 6 && meses < 12) {
-            return RENDIMIENTO_MEDIO;
-        } else {
-            return RENDIMIENTO_BAJO;
-        }
     }
 
     public static String generarLineaHorizontal(int cantidadSimbolos){
