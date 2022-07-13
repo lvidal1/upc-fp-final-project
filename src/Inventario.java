@@ -96,11 +96,11 @@ public class Inventario {
 
         System.out.println("\n---------------- MENU PRINCIPAL ---------------");
         System.out.println();
-        System.out.println("1. Agregar nuevo equipo");
+        System.out.println("1. Agregar equipo");
         System.out.println("2. Editar equipo");
         System.out.println("3. Listar equipos");
-        System.out.println("4. Mostrar informe general");
-        System.out.println("5. Mostrar informe de Última ubicación");
+        System.out.println("4. Mostrar informe general de estados");
+        System.out.println("5. Mostrar informe de ultima ubicacion");
         System.out.println("6. Salir");
 
         Scanner scanchoice = new Scanner(System.in);
@@ -366,13 +366,13 @@ public class Inventario {
 
         do{
 
-            System.out.println("\n- Ingrese código:");
+            System.out.println("\n- Ingrese codigo:");
             codigoBuscar = lector.next();
 
             equipoIndex = buscarEquipo(codigoBuscar, inventario);
 
             if(equipoIndex == ID_NO_ENCONTRADO){
-                System.out.printf("No encontrado equipo '%s'. Revise el código e intente nuevamente.", codigoBuscar);
+                System.out.printf("No encontrado equipo '%s'. Revise el codigo e intente nuevamente.", codigoBuscar);
             }
 
         } while(equipoIndex == ID_NO_ENCONTRADO);
