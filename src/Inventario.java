@@ -153,9 +153,8 @@ public class Inventario {
         String estado;
         String codigoEquipo;
 
-        System.out.println("Ingresar los siguientes datos: ");
-
         if(!esEditarForm){
+            System.out.println("Nuevo equipo: ");
             System.out.print("Ingresar nuevo codigo: ");//C0006
             codigoEquipo = ae.nextLine();
         }else{
@@ -197,9 +196,6 @@ public class Inventario {
 
         }while (!opcionValida);
 
-        System.out.printf("Comentario del equipo:");
-        String comentario = ae.nextLine();
-
         do {
             antiguedadEquipo();
             System.out.printf("Antiguedad del equipo (meses) %s :", (esEditarForm ?  "("+equipo[0].getAntiguedad()+")" : ""));
@@ -207,6 +203,9 @@ public class Inventario {
             opcionValida = validarAntiguedadEquipo(antiguedad);
 
         }while (!opcionValida);
+
+        System.out.printf("Comentario del equipo:");
+        String comentario = ae.nextLine();
 
         return new Equipo(
                 codigoEquipo,
@@ -221,7 +220,6 @@ public class Inventario {
                 antiguedad,
                 comentario , "-" , "-", "-");
     }
-
 
     public static void categoriaEquipo(){
         System.out.println("------------CATEGORIAS DE EQUIPOS------------");
