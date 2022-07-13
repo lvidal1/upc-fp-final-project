@@ -18,15 +18,16 @@ public class Inventario {
 
     public static final int ID_NO_ENCONTRADO = -1;
 
+    public static final int ANCHO_CONTENEDOR_PAGINA = 160;
+    public static final int ANCHO_CONTENEDOR_MODULO = 80;
+
     public static void main(String[] args) {
 
         List<Equipo> inventario = cargarInventarioInicial();
 
         int opcion;
 
-        System.out.println(generarLineaHorizontal(50) );
-        System.out.println("            SISTEMA DE INVENTARIO 2022            ");
-        System.out.println(generarLineaHorizontal(50) );
+        generarEncabezado("SISTEMA DE INVENTARIO 2022", ANCHO_CONTENEDOR_PAGINA);
 
         do {
             opcion = leerOpcionEnMenuPrincipal();
@@ -94,13 +95,14 @@ public class Inventario {
 
     public static int leerOpcionEnMenuPrincipal(){
 
-        System.out.println("\n---------------- MENU PRINCIPAL ---------------");
         System.out.println();
-        System.out.println("1. Agregar nuevo equipo");
+        generarEncabezado("MENU PRINCIPAL", ANCHO_CONTENEDOR_MODULO);
+        System.out.println();
+        System.out.println("1. Agregar equipo");
         System.out.println("2. Editar equipo");
         System.out.println("3. Listar equipos");
-        System.out.println("4. Mostrar informe general");
-        System.out.println("5. Mostrar informe de Última ubicación");
+        System.out.println("4. Mostrar informe general de estados");
+        System.out.println("5. Mostrar informe de ultima ubicacion");
         System.out.println("6. Salir");
 
         Scanner scanchoice = new Scanner(System.in);
@@ -119,9 +121,9 @@ public class Inventario {
 
         inventario.add(equipo);
 
-        System.out.println("---------------------------------------------");
-        System.out.println("EXITO AL GUARDAR DATOS DEL NUEVO EQUIPO");
-        System.out.println("=============================================");
+        System.out.println("\n"+generarLineaHorizontal(ANCHO_CONTENEDOR_MODULO));
+        generarSubEncabezado("EXITO AL GUARDAR DATOS DEL NUEVO EQUIPO",ANCHO_CONTENEDOR_MODULO);
+
     }
 
     public static void editarEquipo(List<Equipo> inventario){
@@ -134,9 +136,9 @@ public class Inventario {
 
         inventario.set(equipoIndex, equipo);
 
-        System.out.println("---------------------------------------------");
-        System.out.println("EXITO AL EDITAR DATOS DEL NUEVO EQUIPO");
-        System.out.println("=============================================");
+        System.out.println("\n"+generarLineaHorizontal(ANCHO_CONTENEDOR_MODULO));
+        generarSubEncabezado("EXITO AL EDITAR DATOS DEL EQUIPO",ANCHO_CONTENEDOR_MODULO);
+
     }
 
     public static Equipo leerFormularioEquipo( Equipo... equipo ){
@@ -152,58 +154,59 @@ public class Inventario {
         String codigoEquipo;
 
         if(!esEditarForm){
-            System.out.println("Nuevo equipo: ");
-            System.out.print("Ingresar nuevo codigo: ");//C0006
+            generarEncabezado("AGREGAR NUEVO EQUIPO", ANCHO_CONTENEDOR_MODULO);
+
+            System.out.print("\n- Ingresar nuevo codigo: ");//C0006
             codigoEquipo = ae.nextLine();
         }else{
             codigoEquipo = equipo[0].getCodigo();
-            System.out.println("Editando equipo: "+ codigoEquipo);
+            generarEncabezado("EDITAR EQUIPO: " + codigoEquipo, ANCHO_CONTENEDOR_MODULO);
         }
 
         do {
             categoriaEquipo();
-            System.out.printf("Categoria del equipo %s :", (esEditarForm ?  "("+equipo[0].getCategoria()+")" : ""));
+            System.out.printf("\n- Categoria del equipo %s :", (esEditarForm ?  "("+equipo[0].getCategoria()+")" : ""));
             categoria = ae.nextLine();
             opcionValida = validarCategoriaEquipo(categoria);
 
         } while (!opcionValida);
 
-        System.out.printf("Marca del equipo %s :", (esEditarForm ?  "("+equipo[0].getMarca()+")" : ""));
+        System.out.printf("- Marca del equipo %s :", (esEditarForm ?  "("+equipo[0].getMarca()+")" : ""));
         String marca = ae.nextLine();
 
-        System.out.printf("Modelo del equipo %s :", (esEditarForm ?  "("+equipo[0].getModelo()+")" : ""));
+        System.out.printf("- Modelo del equipo %s :", (esEditarForm ?  "("+equipo[0].getModelo()+")" : ""));
         String modelo = ae.nextLine();
 
-        System.out.printf("Almacenamiento interno del equipo %s :", (esEditarForm ?  "("+equipo[0].getHDD()+")" : ""));
+        System.out.printf("- Almacenamiento interno del equipo %s :", (esEditarForm ?  "("+equipo[0].getHDD()+")" : ""));
         String HDD = ae.nextLine();
 
-        System.out.printf("Capacidad de memoria RAM del equipo %s :", (esEditarForm ?  "("+equipo[0].getRAM()+")" : ""));
+        System.out.printf("- Capacidad de memoria RAM del equipo %s :", (esEditarForm ?  "("+equipo[0].getRAM()+")" : ""));
         String RAM = ae.nextLine();
 
-        System.out.printf("CPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getCPU()+")" : ""));
+        System.out.printf("- CPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getCPU()+")" : ""));
         String CPU = ae.nextLine();
 
-        System.out.printf("GPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getGPU()+")" : ""));
+        System.out.printf("- GPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getGPU()+")" : ""));
         String GPU = ae.nextLine();
 
         do {
             estadoEquipo();
-            System.out.printf("Estado actual del equipo %s :", (esEditarForm ?  "("+equipo[0].getEstado()+")" : ""));
+            System.out.printf("\n- Estado actual del equipo %s :", (esEditarForm ?  "("+equipo[0].getEstado()+")" : ""));
             estado = ae.nextLine();
             opcionValida = validarEstadoEquipo(estado);
 
         }while (!opcionValida);
 
+        System.out.printf("\n- Comentario del equipo:");
+        String comentario = ae.nextLine();
+
         do {
             antiguedadEquipo();
-            System.out.printf("Antiguedad del equipo (meses) %s :", (esEditarForm ?  "("+equipo[0].getAntiguedad()+")" : ""));
+            System.out.printf("\n- Antiguedad del equipo (meses) %s :", (esEditarForm ?  "("+equipo[0].getAntiguedad()+")" : ""));
             antiguedad = ae.nextInt();
             opcionValida = validarAntiguedadEquipo(antiguedad);
 
         }while (!opcionValida);
-
-        System.out.printf("Comentario del equipo:");
-        String comentario = ae.nextLine();
 
         return new Equipo(
                 codigoEquipo,
@@ -220,18 +223,18 @@ public class Inventario {
     }
 
     public static void categoriaEquipo(){
-        System.out.println("------------CATEGORIAS DE EQUIPOS------------");
-        System.out.println("---- " + String.join(" | ", obtenerCategorias()) + " ----");
+        generarSubEncabezado("CATEGORIAS DE EQUIPOS", ANCHO_CONTENEDOR_MODULO);
+        generarSubEncabezado(String.join(" | ", obtenerCategorias()), ANCHO_CONTENEDOR_MODULO);
     }
 
     public static void estadoEquipo(){
-        System.out.println("-------------ESTADOS DEL EQUIPOS-------------");
-        System.out.println("--------------- " + String.join(" | ", obtenerEstados()) + " ---------------");
+        generarSubEncabezado("ESTADOS DEL EQUIPOS", ANCHO_CONTENEDOR_MODULO);
+        generarSubEncabezado(String.join(" | ", obtenerEstados()), ANCHO_CONTENEDOR_MODULO);
     }
 
     public static void antiguedadEquipo(){
-        System.out.println("--------EXPRESAR ANTIGUEDAD EN MESES---------");
-        System.out.println("-------CONSIDERAR 0 COMO EQUIPO NUEVO--------");
+        generarSubEncabezado("EXPRESAR ANTIGUEDAD EN MESES", ANCHO_CONTENEDOR_MODULO);
+        generarSubEncabezado("CONSIDERAR 0 COMO EQUIPO NUEVO", ANCHO_CONTENEDOR_MODULO);
     }
 
     public static boolean validarCategoriaEquipo(String opcion) {
@@ -258,6 +261,8 @@ public class Inventario {
 
     public static void listarEquipos ( List<Equipo> inventario ){
 
+        generarEncabezado("LISTADO DE EQUIPOS EN EL INVENTARIO", ANCHO_CONTENEDOR_MODULO);
+
         String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
 
         System.out.printf("\n" + tablaFormato, "CODIGO", "CATEGORIA", "MARCA", "ANTIGUEDAD (meses)", "RENDIMIENTO");
@@ -278,6 +283,9 @@ public class Inventario {
     }
 
     public static void generarInformeGeneral( List<Equipo> inventario){
+
+        generarEncabezado("INFORME GENERAL POR ESTADO", ANCHO_CONTENEDOR_MODULO);
+        System.out.println("");
 
         List<Equipo> equiposDisponible = new ArrayList<>();
         List<Equipo> equiposPerdido = new ArrayList<>();
@@ -311,9 +319,7 @@ public class Inventario {
 
     public static void mostrarTablaDeEstados(List<Equipo> equipos, String estado){
 
-        System.out.println("\n" + generarLineaHorizontal(116));
-        System.out.printf("INFORME DE ESTADO: %s | TOTAL: %d\n", estado, equipos.size());
-        System.out.println(generarLineaHorizontal(116));
+        generarSubEncabezado("EQUIPOS CON ESTADO: '"+estado+"' | TOTAL: " + equipos.size(), ANCHO_CONTENEDOR_MODULO);
 
         String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
 
@@ -332,16 +338,18 @@ public class Inventario {
 
         }
 
-        System.out.print("\n");
+        System.out.print("\n\n");
 
     }
 
     public static void generarInformeUltimaUbicacion(List<Equipo> inventario){
 
+        generarEncabezado("INFORME DE ULTIMA UBICACION", ANCHO_CONTENEDOR_MODULO);
+
         int opcion;
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("- Revise el inventario e seleccione un codigo:");
+        System.out.println("\n" +"- Revise el inventario e seleccione un codigo:");
         listarEquipos(inventario);
 
         do{
@@ -366,13 +374,13 @@ public class Inventario {
 
         do{
 
-            System.out.println("\n- Ingrese código:");
+            System.out.println("\n- Ingrese codigo a buscar:");
             codigoBuscar = lector.next();
 
             equipoIndex = buscarEquipo(codigoBuscar, inventario);
 
             if(equipoIndex == ID_NO_ENCONTRADO){
-                System.out.printf("No encontrado equipo '%s'. Revise el código e intente nuevamente.", codigoBuscar);
+                System.out.printf("No encontrado equipo '%s'. Revise el codigo e intente nuevamente.", codigoBuscar);
             }
 
         } while(equipoIndex == ID_NO_ENCONTRADO);
@@ -397,13 +405,12 @@ public class Inventario {
     public static void mostrarInformeUltimaUbicacion(Equipo equipo){
         String tablaFormato = "%-20s: %-10s \n";
         // Mostrar encabezado del informe
-        System.out.println(generarLineaHorizontal(40));
-        System.out.println("ULTIMA UBICACION - Estado: " + equipo.getEstado());
-        System.out.println(generarLineaHorizontal(40));
+        System.out.println("");
+        generarEncabezado(equipo.getCodigo()+" | INFORME DE ULTIMA UBICACION - Estado: " + equipo.getEstado(), ANCHO_CONTENEDOR_MODULO);
         // Mostrar datos del equipo
         System.out.printf(tablaFormato, "Marca", equipo.getMarca());
         System.out.printf(tablaFormato, "Categoria", equipo.getCategoria());
-        System.out.println(generarLineaHorizontal(40));
+        System.out.println(generarLineaHorizontal(ANCHO_CONTENEDOR_MODULO));
         // Mostrar datos de la ubicación
         System.out.printf(tablaFormato, "Ubicacion", equipo.getUltimaUbicacion());
         System.out.printf(tablaFormato, "Usuario", equipo.getUsuarioAsignado());
@@ -428,6 +435,36 @@ public class Inventario {
                 ESTADO_PERDIDO
         };
         return categorias;
+    }
+
+    public static void generarEncabezado(String titulo, int anchoTitulo){
+
+        int espacios = (anchoTitulo - titulo.length())/2;
+        String tituloCentrado;
+        if(espacios >= 0){
+            tituloCentrado = String.format("%" + espacios + "s" + titulo +  "%" + espacios + "s", "","");
+        }else{
+            tituloCentrado = titulo;
+        }
+
+        System.out.println(generarLineaHorizontal(anchoTitulo));
+        System.out.println(tituloCentrado);
+        System.out.println(generarLineaHorizontal(anchoTitulo));
+    }
+
+    public static void generarSubEncabezado(String titulo, int anchoTitulo){
+
+        int espacios = (anchoTitulo - titulo.length()- 4 )/2;
+        String tituloCentrado;
+        if(espacios >= 0){
+            tituloCentrado = String.format("|" + "-".repeat(espacios) + " " + titulo +  " " + "-".repeat(espacios) + "|");
+        }else{
+            tituloCentrado = titulo;
+        }
+
+
+        System.out.println(tituloCentrado);
+
     }
 
     public static String generarLineaHorizontal(int cantidadSimbolos){
