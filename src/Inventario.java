@@ -145,7 +145,7 @@ public class Inventario {
 
         Scanner ae = new Scanner(System.in);
 
-        boolean esEditarForm = (equipo.length > 0);
+        boolean esEditarForm = (equipo != null);
         boolean opcionValida = false;
         int antiguedad;
 
