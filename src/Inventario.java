@@ -284,6 +284,7 @@ public class Inventario {
         List<Equipo> equiposInactivo = new ArrayList<>();
         List<Equipo> equiposEnUso = new ArrayList<>();
 
+        // Agrupar datos por estado
         for (Equipo equipo : inventario) {
             if (equipo.getEstado().equals(ESTADO_DISPONIBLE)) {
                 equiposDisponible.add(equipo);
