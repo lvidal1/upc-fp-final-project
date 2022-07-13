@@ -22,9 +22,7 @@ public class Inventario {
 
     public static void main(String[] args) {
 
-
         List<Equipo> inventario = cargarInventarioInicial();
-
 
         int opcion;
 
@@ -39,10 +37,10 @@ public class Inventario {
 
                 switch (opcion){
                     case 1:
-                        agregarNuevoEquipo(inventario);
+                        agregarEquipo(inventario);
                         break;
                     case 2:
-                        //
+                        editarEquipo(inventario);
                         break;
                     case 3:
                         listarEquipos(inventario);
@@ -117,126 +115,113 @@ public class Inventario {
         return (opcion == 1 || opcion == 2 || opcion == 3 || opcion == 4 || opcion == 5 || opcion == 6);
     }
 
-    public static void agregarNuevoEquipo(List<Equipo> inventario){
-        Scanner ae = new Scanner(System.in);
-        String categoria;
-        String estado;
-        int antiguedad;
-        boolean opcionValida = false;
-        System.out.println("Ingresar los siguientes datos: ");
-        System.out.print("Ingresar nuevo codigo: ");//C0006
-        String codigoEquipo = ae.nextLine();
+    public static void agregarEquipo(List<Equipo> inventario){
 
-        do {
-            categoriaEquipo();
-            System.out.print("Categoria del equipo: ");
-            categoria = ae.nextLine();
-            opcionValida = validarCategoriaEquipo(categoria);
+        Equipo equipo = leerFormularioEquipo(null);
 
-        }while (!opcionValida);
+        inventario.add(equipo);
 
-        System.out.print("Marca del equipo: ");
-        String marca = ae.nextLine();
-
-        System.out.print("Modelo del equipo: ");
-        String modelo = ae.nextLine();
-
-        System.out.print("Almacenamiento interno del equipo: ");
-        String HDD = ae.nextLine();
-
-        System.out.print("Capacidad de memoria RAM del equipo: ");
-        String RAM = ae.nextLine();
-
-        System.out.print("CPU del equipo: ");
-        String CPU = ae.nextLine();
-
-        System.out.print("GPU del equipo: ");
-        String GPU = ae.nextLine();
-
-        do {
-            estadoEquipo();
-            System.out.print("Estado actual del equipo: ");
-            estado = ae.nextLine();
-            opcionValida = validarEstadoEquipo(estado);
-
-        }while (!opcionValida);
-
-        System.out.print("Comentario del equipo: ");
-        String comentario = ae.nextLine();
-
-        do {
-            antiguedadEquipo();
-            System.out.print("Antiguedad del equipo: ");
-            antiguedad = ae.nextInt();
-            opcionValida = validarAntiguedadEquipo(antiguedad);
-
-        }while (!opcionValida);
-
-        inventario.add(new Equipo(codigoEquipo, categoria, marca, modelo, HDD, RAM, CPU, GPU, estado, antiguedad, comentario , "-" , "-", "-"));
-        System.out.println("=============================================");
-        System.out.println("NUEVO EQUIPO AGREGADO");
-        System.out.println("---------------------------------------------");
-        //resumenEquipo(listNuevoEquipo);
         System.out.println("---------------------------------------------");
         System.out.println("EXITO AL GUARDAR DATOS DEL NUEVO EQUIPO");
         System.out.println("=============================================");
     }
 
-    public static void editarEquipo(String codigoEquipo , List<Equipo> inventario){
+    public static void editarEquipo(List<Equipo> inventario){
+
+        listarEquipos(inventario);
+
+        int equipoIndex = obtenerEquipoPorTeclado(inventario);
+
+        Equipo equipo = leerFormularioEquipo(inventario.get(equipoIndex));
+
+        inventario.set(equipoIndex, equipo);
+
+        System.out.println("---------------------------------------------");
+        System.out.println("EXITO AL EDITAR DATOS DEL NUEVO EQUIPO");
+        System.out.println("=============================================");
+    }
+
+    public static Equipo leerFormularioEquipo( Equipo... equipo ){
+
         Scanner ae = new Scanner(System.in);
+
+        boolean esEditarForm = (equipo.length > 0);
+        boolean opcionValida = false;
+        int antiguedad;
+
         String categoria;
         String estado;
-        int antiguedad;
-        boolean opcionValida = false;
+        String codigoEquipo;
+
         System.out.println("Ingresar los siguientes datos: ");
+
+        if(!esEditarForm){
+            System.out.print("Ingresar nuevo codigo: ");//C0006
+            codigoEquipo = ae.nextLine();
+        }else{
+            codigoEquipo = equipo[0].getCodigo();
+            System.out.println("Editando equipo: "+ codigoEquipo);
+        }
 
         do {
             categoriaEquipo();
-            System.out.print("Categoria del equipo: ");
+            System.out.printf("Categoria del equipo %s :", (esEditarForm ?  "("+equipo[0].getCategoria()+")" : ""));
             categoria = ae.nextLine();
             opcionValida = validarCategoriaEquipo(categoria);
 
-        }while (!opcionValida);
+        } while (!opcionValida);
 
-        System.out.print("Marca del equipo: ");
+        System.out.printf("Marca del equipo %s :", (esEditarForm ?  "("+equipo[0].getMarca()+")" : ""));
         String marca = ae.nextLine();
 
-        System.out.print("Modelo del equipo: ");
+        System.out.printf("Modelo del equipo %s :", (esEditarForm ?  "("+equipo[0].getModelo()+")" : ""));
         String modelo = ae.nextLine();
 
-        System.out.print("Almacenamiento interno del equipo: ");
+        System.out.printf("Almacenamiento interno del equipo %s :", (esEditarForm ?  "("+equipo[0].getHDD()+")" : ""));
         String HDD = ae.nextLine();
 
-        System.out.print("Capacidad de memoria RAM del equipo: ");
+        System.out.printf("Capacidad de memoria RAM del equipo %s :", (esEditarForm ?  "("+equipo[0].getRAM()+")" : ""));
         String RAM = ae.nextLine();
 
-        System.out.print("CPU del equipo: ");
+        System.out.printf("CPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getCPU()+")" : ""));
         String CPU = ae.nextLine();
 
-        System.out.print("GPU del equipo: ");
+        System.out.printf("GPU del equipo %s :", (esEditarForm ?  "("+equipo[0].getGPU()+")" : ""));
         String GPU = ae.nextLine();
 
         do {
             estadoEquipo();
-            System.out.print("Estado actual del equipo: ");
+            System.out.printf("Estado actual del equipo %s :", (esEditarForm ?  "("+equipo[0].getEstado()+")" : ""));
             estado = ae.nextLine();
             opcionValida = validarEstadoEquipo(estado);
 
         }while (!opcionValida);
 
-        System.out.print("Comentario del equipo: ");
+        System.out.printf("Comentario del equipo:");
         String comentario = ae.nextLine();
 
         do {
             antiguedadEquipo();
-            System.out.print("Antiguedad del equipo: ");
+            System.out.printf("Antiguedad del equipo (meses) %s :", (esEditarForm ?  "("+equipo[0].getAntiguedad()+")" : ""));
             antiguedad = ae.nextInt();
             opcionValida = validarAntiguedadEquipo(antiguedad);
 
         }while (!opcionValida);
 
-        //resumenEquipoEditado(codigoEquipo, categoria, marca, modelo, HDD, RAM, CPU, GPU, estado, antiguedad, comentario);
+        return new Equipo(
+                codigoEquipo,
+                categoria,
+                marca,
+                modelo,
+                HDD,
+                RAM,
+                CPU,
+                GPU,
+                estado,
+                antiguedad,
+                comentario , "-" , "-", "-");
     }
+
 
     public static void categoriaEquipo(){
         System.out.println("------------CATEGORIAS DE EQUIPOS------------");
@@ -324,8 +309,8 @@ public class Inventario {
 
         do{
 
-            Equipo equipoEncontrado = obtenerEquipoPorTeclado(inventario);
-            mostrarInformeUltimaUbicacion(equipoEncontrado);
+            int equipoIndex = obtenerEquipoPorTeclado(inventario);
+            mostrarInformeUltimaUbicacion(inventario.get(equipoIndex));
 
             System.out.println("\n- Desea ver otro informe?");
             System.out.println("1. Aceptar");
@@ -336,7 +321,7 @@ public class Inventario {
 
     }
 
-    public static Equipo obtenerEquipoPorTeclado(List<Equipo> inventario){
+    public static int obtenerEquipoPorTeclado(List<Equipo> inventario){
 
         int equipoIndex;
         String codigoBuscar;
@@ -355,7 +340,7 @@ public class Inventario {
 
         } while(equipoIndex == ID_NO_ENCONTRADO);
 
-        return inventario.get(equipoIndex);
+        return equipoIndex;
     }
 
     public static int buscarEquipo(String codigo, List<Equipo> inventario){
