@@ -223,12 +223,12 @@ public class Inventario {
 
     public static void categoriaEquipo(){
         System.out.println("------------CATEGORIAS DE EQUIPOS------------");
-        System.out.println("----Laptop | Desktop | Tablet | Impresora----");
+        System.out.println("---- " + String.join(" | ", obtenerCategorias()) + " ----");
     }
 
     public static void estadoEquipo(){
         System.out.println("-------------ESTADOS DEL EQUIPOS-------------");
-        System.out.println("---------------Nuevo | Antiguo---------------");
+        System.out.println("--------------- " + String.join(" | ", obtenerEstados()) + " ---------------");
     }
 
     public static void antiguedadEquipo(){
@@ -237,43 +237,25 @@ public class Inventario {
     }
 
     public static boolean validarCategoriaEquipo(String opcion) {
-        boolean resultado = false;
-
-        if (opcion.equalsIgnoreCase("LAPTOP") ||
-                opcion.equalsIgnoreCase("DESKTOP") ||
-                opcion.equalsIgnoreCase("TABLET") ||
-                opcion.equalsIgnoreCase("IMPRESORA")) {
-            resultado = true;
-        } else {
-            resultado =  false;
+        for (String categoria : obtenerCategorias()) {
+            if (opcion.equalsIgnoreCase(categoria)) {
+                return true;
+            }
         }
-
-        return resultado;
+        return false;
     }
 
     public static boolean validarEstadoEquipo(String opcion) {
-        boolean resultado = false;
-
-        if (opcion.equalsIgnoreCase("NUEVO") ||
-                opcion.equalsIgnoreCase("ANTIGUO")) {
-            resultado = true;
-        } else {
-            resultado =  false;
+        for (String estado : obtenerEstados()) {
+            if (opcion.equalsIgnoreCase(estado)) {
+                return true;
+            }
         }
-
-        return resultado;
+        return false;
     }
 
     public static boolean validarAntiguedadEquipo(int opcion) {
-        boolean resultado = false;
-
-        if (opcion >= 0) {
-            resultado = true;
-        } else {
-            resultado =  false;
-        }
-
-        return resultado;
+        return opcion >= 0;
     }
 
     public static void listarEquipos ( List<Equipo> inventario ){
