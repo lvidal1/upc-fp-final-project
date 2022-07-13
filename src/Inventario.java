@@ -19,7 +19,6 @@ public class Inventario {
     public static final int ID_NO_ENCONTRADO = -1;
 
     public static final int ANCHO_CONTENEDOR_PAGINA = 160;
-
     public static final int ANCHO_CONTENEDOR_MODULO = 80;
 
     public static void main(String[] args) {
@@ -96,7 +95,8 @@ public class Inventario {
 
     public static int leerOpcionEnMenuPrincipal(){
 
-        System.out.println("\n---------------- MENU PRINCIPAL ---------------");
+        System.out.println();
+        generarEncabezado("MENU PRINCIPAL", ANCHO_CONTENEDOR_MODULO);
         System.out.println();
         System.out.println("1. Agregar equipo");
         System.out.println("2. Editar equipo");
@@ -121,9 +121,9 @@ public class Inventario {
 
         inventario.add(equipo);
 
-        System.out.println("---------------------------------------------");
-        System.out.println("EXITO AL GUARDAR DATOS DEL NUEVO EQUIPO");
-        System.out.println("=============================================");
+        System.out.println("\n"+generarLineaHorizontal(ANCHO_CONTENEDOR_MODULO));
+        generarSubEncabezado("EXITO AL GUARDAR DATOS DEL NUEVO EQUIPO",ANCHO_CONTENEDOR_MODULO);
+
     }
 
     public static void editarEquipo(List<Equipo> inventario){
@@ -136,9 +136,9 @@ public class Inventario {
 
         inventario.set(equipoIndex, equipo);
 
-        System.out.println("---------------------------------------------");
-        System.out.println("EXITO AL EDITAR DATOS DEL NUEVO EQUIPO");
-        System.out.println("=============================================");
+        System.out.println("\n"+generarLineaHorizontal(ANCHO_CONTENEDOR_MODULO));
+        generarSubEncabezado("EXITO AL EDITAR DATOS DEL EQUIPO",ANCHO_CONTENEDOR_MODULO);
+
     }
 
     public static Equipo leerFormularioEquipo( Equipo... equipo ){
@@ -156,7 +156,7 @@ public class Inventario {
         if(!esEditarForm){
             generarEncabezado("AGREGAR NUEVO EQUIPO", ANCHO_CONTENEDOR_MODULO);
 
-            System.out.print("- Ingresar nuevo codigo: ");//C0006
+            System.out.print("\n- Ingresar nuevo codigo: ");//C0006
             codigoEquipo = ae.nextLine();
         }else{
             codigoEquipo = equipo[0].getCodigo();
@@ -165,7 +165,7 @@ public class Inventario {
 
         do {
             categoriaEquipo();
-            System.out.printf("- Categoria del equipo %s :", (esEditarForm ?  "("+equipo[0].getCategoria()+")" : ""));
+            System.out.printf("\n- Categoria del equipo %s :", (esEditarForm ?  "("+equipo[0].getCategoria()+")" : ""));
             categoria = ae.nextLine();
             opcionValida = validarCategoriaEquipo(categoria);
 
@@ -191,22 +191,22 @@ public class Inventario {
 
         do {
             estadoEquipo();
-            System.out.printf("- Estado actual del equipo %s :", (esEditarForm ?  "("+equipo[0].getEstado()+")" : ""));
+            System.out.printf("\n- Estado actual del equipo %s :", (esEditarForm ?  "("+equipo[0].getEstado()+")" : ""));
             estado = ae.nextLine();
             opcionValida = validarEstadoEquipo(estado);
 
         }while (!opcionValida);
 
+        System.out.printf("\n- Comentario del equipo:");
+        String comentario = ae.nextLine();
+
         do {
             antiguedadEquipo();
-            System.out.printf("- Antiguedad del equipo (meses) %s :", (esEditarForm ?  "("+equipo[0].getAntiguedad()+")" : ""));
+            System.out.printf("\n- Antiguedad del equipo (meses) %s :", (esEditarForm ?  "("+equipo[0].getAntiguedad()+")" : ""));
             antiguedad = ae.nextInt();
             opcionValida = validarAntiguedadEquipo(antiguedad);
 
         }while (!opcionValida);
-
-        System.out.printf("- Comentario del equipo:");
-        String comentario = ae.nextLine();
 
         return new Equipo(
                 codigoEquipo,
@@ -223,18 +223,18 @@ public class Inventario {
     }
 
     public static void categoriaEquipo(){
-        System.out.println("------------CATEGORIAS DE EQUIPOS------------");
-        System.out.println("---- " + String.join(" | ", obtenerCategorias()) + " ----");
+        generarSubEncabezado("CATEGORIAS DE EQUIPOS", ANCHO_CONTENEDOR_MODULO);
+        generarSubEncabezado(String.join(" | ", obtenerCategorias()), ANCHO_CONTENEDOR_MODULO);
     }
 
     public static void estadoEquipo(){
-        System.out.println("-------------ESTADOS DEL EQUIPOS-------------");
-        System.out.println("--------------- " + String.join(" | ", obtenerEstados()) + " ---------------");
+        generarSubEncabezado("ESTADOS DEL EQUIPOS", ANCHO_CONTENEDOR_MODULO);
+        generarSubEncabezado(String.join(" | ", obtenerEstados()), ANCHO_CONTENEDOR_MODULO);
     }
 
     public static void antiguedadEquipo(){
-        System.out.println("--------EXPRESAR ANTIGUEDAD EN MESES---------");
-        System.out.println("-------CONSIDERAR 0 COMO EQUIPO NUEVO--------");
+        generarSubEncabezado("EXPRESAR ANTIGUEDAD EN MESES", ANCHO_CONTENEDOR_MODULO);
+        generarSubEncabezado("CONSIDERAR 0 COMO EQUIPO NUEVO", ANCHO_CONTENEDOR_MODULO);
     }
 
     public static boolean validarCategoriaEquipo(String opcion) {
@@ -285,6 +285,7 @@ public class Inventario {
     public static void generarInformeGeneral( List<Equipo> inventario){
 
         generarEncabezado("INFORME GENERAL POR ESTADO", ANCHO_CONTENEDOR_MODULO);
+        System.out.println("");
 
         List<Equipo> equiposDisponible = new ArrayList<>();
         List<Equipo> equiposPerdido = new ArrayList<>();
@@ -318,7 +319,7 @@ public class Inventario {
 
     public static void mostrarTablaDeEstados(List<Equipo> equipos, String estado){
 
-        generarEncabezado("INFORME DE ESTADO: "+estado+" | TOTAL: " + equipos.size(), ANCHO_CONTENEDOR_MODULO);
+        generarSubEncabezado("EQUIPOS CON ESTADO: '"+estado+"' | TOTAL: " + equipos.size(), ANCHO_CONTENEDOR_MODULO);
 
         String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
 
@@ -450,7 +451,22 @@ public class Inventario {
         System.out.println(tituloCentrado);
         System.out.println(generarLineaHorizontal(anchoTitulo));
     }
-    
+
+    public static void generarSubEncabezado(String titulo, int anchoTitulo){
+
+        int espacios = (anchoTitulo - titulo.length()- 4 )/2;
+        String tituloCentrado;
+        if(espacios >= 0){
+            tituloCentrado = String.format("|" + "-".repeat(espacios) + " " + titulo +  " " + "-".repeat(espacios) + "|");
+        }else{
+            tituloCentrado = titulo;
+        }
+
+
+        System.out.println(tituloCentrado);
+
+    }
+
     public static String generarLineaHorizontal(int cantidadSimbolos){
         String linea = "";
         for (int i = 0; i < cantidadSimbolos; i++) {
