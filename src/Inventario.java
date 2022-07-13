@@ -44,7 +44,7 @@ public class Inventario {
                         listarEquipos(inventario);
                         break;
                     case 4:
-                        //
+                        generarInformeGeneral(inventario);
                         break;
                     case 5:
                         generarInformeUltimaUbicacion(inventario);
@@ -274,6 +274,64 @@ public class Inventario {
             );
 
         }
+
+    }
+
+    public static void generarInformeGeneral( List<Equipo> inventario){
+
+        List<Equipo> equiposDisponible = new ArrayList<>();
+        List<Equipo> equiposPerdido = new ArrayList<>();
+        List<Equipo> equiposInactivo = new ArrayList<>();
+        List<Equipo> equiposEnUso = new ArrayList<>();
+
+        for (Equipo equipo : inventario) {
+            if (equipo.getEstado().equals(ESTADO_DISPONIBLE)) {
+                equiposDisponible.add(equipo);
+            }
+            if (equipo.getEstado().equals(ESTADO_ENUSO)) {
+                equiposEnUso.add(equipo);
+            }
+            if (equipo.getEstado().equals(ESTADO_INACTIVO)) {
+                equiposInactivo.add(equipo);
+            }
+            if (equipo.getEstado().equals(ESTADO_PERDIDO)) {
+                equiposPerdido.add(equipo);
+            }
+        }
+
+
+        // Mostrar informe de estado
+        mostrarTablaDeEstados(equiposDisponible, ESTADO_DISPONIBLE);
+        mostrarTablaDeEstados(equiposEnUso, ESTADO_ENUSO);
+        mostrarTablaDeEstados(equiposInactivo, ESTADO_INACTIVO);
+        mostrarTablaDeEstados(equiposPerdido, ESTADO_PERDIDO);
+
+    }
+
+    public static void mostrarTablaDeEstados(List<Equipo> equipos, String estado){
+
+        System.out.println("\n" + generarLineaHorizontal(116));
+        System.out.printf("INFORME DE ESTADO: %s | TOTAL: %d\n", estado, equipos.size());
+        System.out.println(generarLineaHorizontal(116));
+
+        String tablaFormato = "| %-20s | %-20s | %-20s | %-20s | %-20s | \n";
+
+        System.out.printf("\n" + tablaFormato, "CODIGO", "CATEGORIA", "MARCA", "ANTIGUEDAD (meses)", "RENDIMIENTO");
+        System.out.println(generarLineaHorizontal(116));
+
+        for (Equipo equipo : equipos) {
+
+            System.out.printf(tablaFormato,
+                    equipo.getCodigo(),
+                    equipo.getCategoria(),
+                    equipo.getMarca(),
+                    equipo.getAntiguedad(),
+                    equipo.getRendimiento()
+            );
+
+        }
+
+        System.out.print("\n");
 
     }
 
