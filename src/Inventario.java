@@ -58,6 +58,8 @@ public class Inventario {
 
         } while (opcion!=6);
 
+        generarEncabezado("Saliendo del sistema. Tenga un buen dia.", ANCHO_CONTENEDOR_PAGINA);
+
     }
 
     public static List<Equipo> cargarInventarioInicial() {
